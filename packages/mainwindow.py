@@ -1,6 +1,5 @@
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
-from packages import graphics
 from packages import utils
 
 
@@ -22,10 +21,6 @@ class MainWindow(QMainWindow):
 		self.toolbar = self.addToolBar("MainToolBar")
 		self.initToolbar()
 
-		# TODO add menu items
-		# TODO add toolbar
-		# TODO add widgets
-
 		self.mainwidget = MainWidget(self)
 		self.setCentralWidget(self.mainwidget)
 
@@ -42,7 +37,7 @@ class MainWindow(QMainWindow):
 		end = desktopgeometry.height() / 2 - height / 2
 		self.setGeometry(start, end, width, height)
 		self.setWindowTitle("Profile")
-		self.setWindowIcon(QIcon("resources/profile.ico"))  # TODO create and set a window icon
+		self.setWindowIcon(QIcon("resources/Icons/profile.ico"))  # TODO create and set a window icon
 
 	def initStatusbar(self):
 		self.statusbar.setObjectName("MainStatusBar")
@@ -60,7 +55,7 @@ class MainWindow(QMainWindow):
 
 		# sub items in File menu
 		self.new = QAction("&New", self)
-		self.new.setIcon(QIcon("D:/Softwares/Projects/Resources/Icons/rec.png"))  # TODO fix the icon popup
+		self.new.setIcon(QIcon())  # TODO fix the icon popup
 		self.new.setShortcut("Ctrl+Shift+N")
 
 		self.sync = QAction("&Synchronize", self)

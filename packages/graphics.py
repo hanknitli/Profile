@@ -46,6 +46,7 @@ class ErrorWindow(QWidget):
 		self.setObjectName("errorWindow")
 		self.setStyleSheet(utils.parseStyleSheet())
 		self.setWindowFlags(Qt.FramelessWindowHint)
+		self.setWindowIcon(QIcon("resources/Icons/profile.ico"))
 
 	# self.setGraphicsEffect(effect)
 	def setWindow(self):
