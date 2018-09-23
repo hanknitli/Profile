@@ -1,4 +1,4 @@
-from packages import mainWindow
+from packages import mainwindow
 from packages import graphics
 from packages import utils
 
@@ -6,7 +6,7 @@ from packages import utils
 def run():
 	import sys
 
-	app = mainWindow.QApplication(sys.argv)
+	app = mainwindow.QApplication(sys.argv)
 
 	# check for the config.yaml file
 	try:
@@ -18,7 +18,7 @@ def run():
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())
 
-	mainwindow = mainWindow.MainWindow()
-	mainwindow.show()
+	window = mainwindow.MainWindow()
+	window.show()
 
 	app.exec_()
