@@ -1,4 +1,5 @@
 logfile:
 showtoolbar: true
 profilepath: D:\Softwares\Projects\Python\practice\qt_test\resources\profile.yml
-expandedTree: False
+expandedTree: True
+scrollbar: True

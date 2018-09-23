@@ -85,12 +85,16 @@ class MainWindow(QMainWindow):
 		self.menubar.addMenu(self.view)
 
 		# sub items in View menu
+		self.scrollbar = QAction("Scrollbar", self)
+		self.scrollbar.setIcon(QIcon())  # TODO add the checkmark icon
+		self.scrollbar.setStatusTip("Show/Hide the tree's scrollbar")
+
 		self.showtoolbar = QAction("Toolbar", self)
 		self.showtoolbar.setIcon(QIcon())  # TODO add the checkmark icon
 		self.showtoolbar.setStatusTip("Show/Hide the main toolbar")
 
 		# add the sub items to the View menu
-		self.view.addActions([self.showtoolbar, ])
+		self.view.addActions([self.scrollbar, self.showtoolbar])
 
 		# Tools menu item
 		self.tools = QMenu("&Tools")
@@ -124,11 +128,13 @@ class MainWindow(QMainWindow):
 		self.toolbar.setStyleSheet(utils.parseStyleSheet())
 
 		self.toolbar.addActions([self.new, self.exit, self.sync])
+		self.toolbar.addActions([self.scrollbar])
 		self.toolbar.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
 
 	def connections(self):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
 		self.exit.triggered.connect(self.close)
+		self.scrollbar.triggered.connect(self.mainwidget.togglescrollbar)
 		self.showtoolbar.triggered.connect(self.toggletoolbar)
 		self.expand.triggered.connect(self.mainwidget.expandthis)
 		self.collapse.triggered.connect(self.mainwidget.collapsethis)
@@ -172,7 +178,7 @@ class MainWidget(QWidget):
 		self.treewidget.setStyleSheet(utils.parseStyleSheet())
 		self.treewidget.setHeaderHidden(True)
 		self.maketree()
-		self.setItemStyle()
+		self.setTreeStyle()
 
 	def maketree(self):
 		try:
@@ -226,6 +232,13 @@ class MainWidget(QWidget):
 				break
 		return rootitems
 
+	def togglescrollbar(self):
+		if self._scrollbarset:
+			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		else:
+			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+		self._scrollbarset = not self._scrollbarset
+
 	def synchronize(self):
 		self.treewidget.clear()
 		self.maketree()
@@ -234,10 +247,14 @@ class MainWidget(QWidget):
 		self.treewidget.itemClicked.connect(self.setCurrentItem)
 		self.treewidget.itemSelectionChanged.connect(self.itemChanged)
 
-	def setItemStyle(self):
-		self.treewidget.setAutoFillBackground(False)
+	def setTreeStyle(self):
+		self._scrollbarset = utils.configuration.scrollbar
+		if utils.configuration.scrollbar:
+			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+		else:
+			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		rootitems = self.getrootitems()
-		for item in rootitems:
+		for item in rootitems:  # TODO set the color to the entire row
 			item.setBackgroundColor(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
 
 	def getchildren(self, item):

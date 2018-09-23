@@ -122,6 +122,17 @@ QTreeWidget#TreeWidget {
 	border-width: 0px;
 }
 
+QScrollBar:vertical {
+	background-color: rgb(53, 53, 53);
+	width: 7px;
+}
+
+QScrollBar::handle:vertical {
+	background-color: rgb(100, 100, 100);
+	margin: 0px;
+	width: 7px;
+}
+
 QTextEdit#editor {
 	background-color: rgb(43, 43, 43);
 	color: rgb(170, 170, 170);

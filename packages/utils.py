@@ -14,6 +14,7 @@ class Configuration:
 		self.showtoolbar = None
 		self.profilepath = None
 		self.expandedTree = None
+		self.scrollbar = None
 
 		if sys.platform == "win32":
 			__appdata__ = os.getenv("AppData")
@@ -32,6 +33,7 @@ class Configuration:
 		self.showtoolbar = config["showtoolbar"]
 		self.profilepath = config["profilepath"]
 		self.expandedTree = config["expandedTree"]
+		self.scrollbar = config["scrollbar"]
 
 	def initConfFile(self):
 		if not self.isConfFileExists():
