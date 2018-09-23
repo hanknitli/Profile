@@ -1,3 +1,5 @@
+import traceback
+
 from packages import mainwindow
 from packages import graphics
 from packages import utils
@@ -14,7 +16,17 @@ def run():
 
 	except Exception as reason:
 		errorwindow = graphics.ErrorWindow()
-		message = "Could not create config.yaml file\n" + reason.message
+		message = "Could not create config.yaml file at\n" + utils.configuration.configfile + "\n\n" + str(reason)
+		errorwindow.showError("Error", message)
+		sys.exit(app.exec_())
+
+	# check for the config.yaml file
+	try:
+		utils.configuration.initLogFile()
+
+	except Exception as reason:
+		errorwindow = graphics.ErrorWindow()
+		message = "Could not create Log file at\n" + utils.configuration.logfile + "\n\n" + str(reason)
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())
 

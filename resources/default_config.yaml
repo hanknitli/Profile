@@ -1,4 +1,6 @@
 logfile:
+  Windows: C:\Logs\UtilityBelt\Profile\log.txt
+  Linux:              #TODO add the path to the log file for Linux platform
 showtoolbar: true
 profilepath: D:\Softwares\Projects\Python\practice\qt_test\resources\profile.yml
 expandedTree: True

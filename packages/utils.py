@@ -1,6 +1,8 @@
 import sys
 import os
 import errno
+import time
+
 import yaml
 
 execfile("packages/constants.py")
@@ -29,7 +31,11 @@ class Configuration:
 	def setConfig(self):
 		config = self.readconfig()
 		self.configfile = self._configfilepath
-		self.logfile = config["logfile"]
+		if sys.platform == "win32":
+			self.logfile = config["logfile"]["Windows"]
+		elif sys.platform == "linux":
+			self.logfile = config["logfile"]["Linux"]
+
 		self.showtoolbar = config["showtoolbar"]
 		self.profilepath = config["profilepath"]
 		self.expandedTree = config["expandedTree"]
@@ -68,6 +74,24 @@ class Configuration:
 		with open("resources/default_config.yaml", "r") as default_config:
 			config = yaml.load(default_config)
 		return config
+
+	def initLogFile(self):
+		if not self.isLogFileExists():
+			self.createLogFile()
+
+	def isLogFileExists(self):
+		return os.path.isfile(self.logfile)
+
+	def createLogFile(self):
+		try:
+			os.makedirs(os.path.dirname(self.logfile))
+
+		except OSError as reason:
+			if reason.errno != errno.EEXIST:
+				raise Exception('Unknown Error')
+
+		with open(self.logfile, "w") as log:
+			log.write("# Log file created at " + time.ctime(time.time()))
 
 
 def parseStyleSheet():
