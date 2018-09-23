@@ -136,8 +136,37 @@ class MainWindow(QMainWindow):
 		self.expandall.triggered.connect(self.mainwidget.expandtree)
 		self.collapseall.triggered.connect(self.mainwidget.collapsetree)
 
+		self.mainwidget.treewidget.itemClicked.connect(self.setCurrentItem)
+		self.mainwidget.treewidget.itemSelectionChanged.connect(self.itemChanged)
+
 	def toggletoolbar(self):
 		self.toolbar.toggleViewAction().trigger()
+
+	def itemChanged(self):
+		item = self.mainwidget.treewidget.selectedItems()
+		self.setCurrentItem(item[0], 0)
+		path = self.getrootpath(self.mainwidget.currentitem)
+
+		windowtitle = str(path.pop(0).text(0)) + " ["
+		path.reverse()
+		for item in path:
+			windowtitle += str(item.text(0)) + '/'
+		windowtitle = windowtitle.strip('/') + '] - Profile'
+		self.setWindowTitle(windowtitle)
+
+	def setCurrentItem(self, item, column):
+		self.mainwidget.currentitem = item
+
+	def getrootpath(self, item):
+		path = [item]
+		while True:
+			parent = item.parent()
+			if parent:
+				path.append(parent)
+				item = parent
+			else:
+				break
+		return path
 
 
 class MainWidget(QWidget):
@@ -208,13 +237,6 @@ class MainWidget(QWidget):
 	def addList(self, parent, key):
 		QTreeWidgetItem(parent, [key]).setExpanded(True)
 
-	def itemChanged(self):
-		item = self.treewidget.selectedItems()
-		self.setCurrentItem(item[0], 0)
-
-	def setCurrentItem(self, item, column):
-		self.currentitem = item
-
 	def getrootitems(self):
 		rootitems = []
 		index = 0
@@ -239,8 +261,7 @@ class MainWidget(QWidget):
 		self.maketree()
 
 	def connections(self):
-		self.treewidget.itemClicked.connect(self.setCurrentItem)
-		self.treewidget.itemSelectionChanged.connect(self.itemChanged)
+		pass  # TODO no connections yet, add every connections here
 
 	def setTreeStyle(self):
 		self._scrollbarset = utils.configuration.scrollbar
