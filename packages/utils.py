@@ -22,9 +22,9 @@ class Configuration:
 			__appdata__ = os.getenv("AppData")
 			self._configfilepath = os.path.join(__appdata__, parent_windows, __project_name__, configfile)
 
-		elif sys.platform == "linux":
-			# TODO store the file path in _configfilepath variable
-			pass
+		elif sys.platform == "linux2":
+			path = os.path.expanduser("~/.config/UtilityBelt/Profile")
+			self._configfilepath = os.path.join(path, "config.yaml")
 
 		self.setConfig()
 
@@ -33,8 +33,9 @@ class Configuration:
 		self.configfile = self._configfilepath
 		if sys.platform == "win32":
 			self.logfile = config["logfile"]["Windows"]
-		elif sys.platform == "linux":
-			self.logfile = config["logfile"]["Linux"]
+		elif sys.platform == "linux2":
+			logfile = config["logfile"]["Linux"]
+			self.logfile = os.path.expanduser(logfile)
 
 		self.showtoolbar = config["showtoolbar"]
 		self.profilepath = config["profilepath"]
