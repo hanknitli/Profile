@@ -96,7 +96,7 @@ class Configuration:
 
 
 def parseStyleSheet():
-	with open("resources/stylesheet", "r") as cssfile:
+	with open("resources/stylesheet.css", "r") as cssfile:
 		cssdata = cssfile.read()
 	return cssdata
 
