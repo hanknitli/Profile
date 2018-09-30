@@ -30,6 +30,17 @@ def run():
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())
 
+	# check for the .profile directory path
+	try:
+		utils.configuration.initProfilePath()
+
+	except Exception as reason:
+		errorwindow = graphics.ErrorWindow()
+		message = "Could not create the .profile directory at\n" + utils.configuration.profilepath + "\n\n"
+		message += str(reason)
+		errorwindow.showError("Error", message)
+		sys.exit(app.exec_())
+
 	window = mainwindow.MainWindow()
 	window.show()
 

@@ -59,6 +59,84 @@ QPushButton#closeButton:hover {
 	padding-bottom: 9px;
 }
 
+QWidget#InputProfileWindow {
+	background-color: rgb(53, 53, 53);
+}
+
+QLabel#profileTitleLabel {
+	background-color: rgb(73, 73, 73);
+	color: rgb(170, 170, 170);
+	font: Monospace;
+	font-size: 13px;
+	height: 10px;
+	border-style: solid;
+	border-color: rgb(43, 43, 43);
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-left-width: 1px;
+}
+
+QRadioButton {
+    background-color: rgb(50, 50, 50);
+    color: rgb(170, 170, 170);
+    outline: none;
+}
+
+QRadioButton:hover {
+    background-color: rgb(48, 48, 48);
+}
+
+QRadioButton::checked {
+    background-color: rgb(45, 45, 45);
+}
+
+QRadioButton::indicator::unchecked {
+    background-color: rgb(43, 43, 43);
+    color: green;
+    width: 13px;
+    height: 13px;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 6px;
+    outline: none;
+}
+
+QRadioButton::indicator::checked {
+    background-color: rgb(23, 23, 23);
+    width: 13px;
+    height: 13px;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 6px;
+    border-color: rgb(43, 43, 43);
+    outline: none;
+}
+
+QPushButton#profileButton {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	font-family: monospace;
+	font-size: 12px;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	border-radius: 3px;
+	border-style: solid;
+	border-color: rgb(73, 73, 73);
+	border-width: 1px;
+	outline: none;
+}
+
+QPushButton#profileButton:hover {
+	background-color: rgb(60, 60, 60);
+	color: rgb(170, 170, 170);
+	font-family: monospace;
+	font-size: 12px;
+	border-radius: 3px;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	outline: none;
+}
+
 QMainWindow#Profile {
 	background-color: rgb(63, 63, 63);
 }

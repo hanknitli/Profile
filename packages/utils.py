@@ -18,33 +18,70 @@ class Configuration:
 		self.expandedTree = None
 		self.scrollbar = None
 
+		with open("resources/default_config.yaml", "r") as default_config:
+			config = yaml.load(default_config)
+
 		if sys.platform == "win32":
-			__appdata__ = os.getenv("AppData")
+			__appdata__ = os.getenv(config["configfile"]["Windows"])
 			self._configfilepath = os.path.join(__appdata__, parent_windows, __project_name__, configfile)
 
 		elif sys.platform == "linux2":
-			path = os.path.expanduser("~/.config/UtilityBelt/Profile")
-			self._configfilepath = os.path.join(path, "config.yaml")
-
-		self.setConfig()
-
-	def setConfig(self):
-		config = self.readconfig()
+			__config__ = os.path.expanduser(config["configfile"]["Linux"])
+			self._configfilepath = os.path.join(__config__, parent_linux, __project_name__, configfile)
 		self.configfile = self._configfilepath
-		if sys.platform == "win32":
-			self.logfile = config["logfile"]["Windows"]
-		elif sys.platform == "linux2":
-			logfile = config["logfile"]["Linux"]
-			self.logfile = os.path.expanduser(logfile)
-
-		self.showtoolbar = config["showtoolbar"]
-		self.profilepath = config["profilepath"]
-		self.expandedTree = config["expandedTree"]
-		self.scrollbar = config["scrollbar"]
 
 	def initConfFile(self):
 		if not self.isConfFileExists():
 			self.createConfFile()
+		self.setConfig()
+
+	def isConfFileExists(self):
+		return os.path.isfile(self.configfile)
+
+	def createConfFile(self):
+		default_config = self.defaultConfig()
+		try:
+			os.makedirs(os.path.dirname(self.configfile))
+
+		except OSError as reason:
+			if reason.errno != errno.EEXIST:
+				raise Exception, 'Unknown Error'
+
+		with open(self.configfile, "w") as config:
+			yaml.dump(default_config, config, default_flow_style=False)
+
+	def defaultConfig(self):
+		with open("resources/default_config.yaml", "r") as default_config:
+			config = yaml.load(default_config)
+
+		if sys.platform == "win32":
+			self.logfile = config["logfile"]["Windows"]
+			basepath = os.getenv(config["profilepath"]["Windows"])
+			self.profilepath = os.path.join(basepath, ".profile")
+
+		elif sys.platform == "linux2":
+			basepath = os.path.expanduser(config["logfile"]["Linux"])
+			self.logfile = os.path.join(basepath, parent_linux, __project_name__, "log.txt")
+
+			basepath = os.path.expanduser((config["profilepath"]["Linux"]))
+			self.profilepath = os.path.join(basepath, parent_linux, __project_name__, ".profile")
+
+		self.showtoolbar = config["showtoolbar"]
+		self.expandedTree = config["expandedTree"]
+		self.scrollbar = config["scrollbar"]
+
+		default_config = {"logfile": self.logfile, "showtoolbar": self.showtoolbar, "profilepath": self.profilepath, \
+						  "expandedTree": self.expandedTree, "scrollbar": self.scrollbar}
+		return default_config
+
+	def setConfig(self):
+		config = self.readconfig()
+
+		self.logfile = config["logfile"]
+		self.showtoolbar = config["showtoolbar"]
+		self.profilepath = config["profilepath"]
+		self.expandedTree = config["expandedTree"]
+		self.scrollbar = config["scrollbar"]
 
 	def readconfig(self):
 		if not self.isConfFileExists():
@@ -52,29 +89,9 @@ class Configuration:
 			return self.defaultConfig()
 
 		else:
-			with open(self._configfilepath, "r") as config:
+			with open(self.configfile, "r") as config:
 				data = yaml.load(config)
 			return data
-
-	def isConfFileExists(self):
-		return os.path.isfile(self._configfilepath)
-
-	def createConfFile(self):
-		default_config = self.defaultConfig()
-		try:
-			os.makedirs(os.path.dirname(self._configfilepath))
-
-		except OSError as reason:
-			if reason.errno != errno.EEXIST:
-				raise Exception, 'Unknown Error'
-
-		with open(self._configfilepath, "w") as config:
-			yaml.dump(default_config, config, default_flow_style=False)
-
-	def defaultConfig(self):
-		with open("resources/default_config.yaml", "r") as default_config:
-			config = yaml.load(default_config)
-		return config
 
 	def initLogFile(self):
 		if not self.isLogFileExists():
@@ -94,6 +111,21 @@ class Configuration:
 		with open(self.logfile, "w") as log:
 			log.write("# Log file created at " + time.ctime(time.time()))
 
+	def initProfilePath(self):
+		if not self.isProfilePathExists():
+			self.createProfilePath()
+
+	def isProfilePathExists(self):
+		return os.path.isdir(self.profilepath)
+
+	def createProfilePath(self):
+		try:
+			os.makedirs(self.profilepath)
+
+		except OSError as reason:
+			if reason.errno != errno.EEXIST:
+				raise Exception('Unknown Error')
+
 
 def parseStyleSheet():
 	with open("resources/stylesheet.css", "r") as cssfile:
@@ -101,14 +133,21 @@ def parseStyleSheet():
 	return cssdata
 
 
-def readprofile(profilepath):
-	if profilepath:
-		if isProfileExists(profilepath):
-			with open(profilepath, "r") as profile_file:
+def readprofile(basepath):
+	if basepath:
+		profilepath = {"yaml": os.path.join(basepath, "profile.yaml"), "yml": os.path.join(basepath, "profile.yml")}
+		if isProfileExists(profilepath["yaml"]):
+			with open(profilepath["yaml"], "r") as profile_file:
+				profile = yaml.load(profile_file)
+			return profile
+		if isProfileExists(profilepath["yml"]):
+			with open(profilepath["yml"], "r") as profile_file:
 				profile = yaml.load(profile_file)
 			return profile
 		else:
-			raise IOError, "Profile not found"
+			raise IOError("Profile not found")
+	else:
+		raise IOError("Profile path is empty")
 
 
 def isProfileExists(profilepath):

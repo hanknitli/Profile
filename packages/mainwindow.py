@@ -1,6 +1,9 @@
+import os
+
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from packages import utils
+from packages import graphics
 
 
 class MainWindow(QMainWindow):
@@ -210,7 +213,22 @@ class MainWidget(QWidget):
 			self.parseprofile(profile)
 
 		except IOError as reason:
-			print reason.message  # TODO show an error saying profile not found
+			inputprofilewindow = graphics.InputProfileWindow(self)
+			inputprofilewindow.exec_()
+			try:
+				profile = utils.readprofile(utils.configuration.profilepath)
+				self.parseprofile(profile)
+
+			except IOError as reason:
+				print reason.message  # TODO show an error saying profile not found
+
+		# TODO show a popup with mandatory checkbox saying,
+		# TODO get resources from repository or enter a path to the existing .profile folder
+		# TODO if the user checks on "checkout from git", give the url input box to enter the .git url
+		# TODO if the user checks on "I have the resources", give the input box to enter the local path for .profile
+
+		except Exception as reason:
+			print "yaml corrupted"  # TODO show an error saying yaml corrupted
 
 	def parseprofile(self, profile, item=None):
 		if not item:
@@ -259,6 +277,7 @@ class MainWidget(QWidget):
 	def synchronize(self):
 		self.treewidget.clear()
 		self.maketree()
+		self.setTreeStyle()
 
 	def connections(self):
 		pass  # TODO no connections yet, add every connections here

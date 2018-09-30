@@ -1,7 +1,12 @@
+configfile:
+  Windows: AppData
+  Linux: ~/.config
 logfile:
   Windows: C:\Logs\UtilityBelt\Profile\log.txt
-  Linux: ~/.config/UtilityBelt/Profile/log.txt
+  Linux: ~/.config
 showtoolbar: true
 profilepath:
+  Windows: Users
+  Linux: ~/.config/
 expandedTree: True
 scrollbar: True
