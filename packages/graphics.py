@@ -86,12 +86,18 @@ class InputProfileWindow(QDialog):
 		self.enterrepo.setChecked(False)
 
 		self.inputrepo = QLineEdit("Enter the .git repository")
-		self.inputrepo.setObjectName("InputRepo")
 		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
-		self.inputrepo.selectAll()
+		self.inputrepo.selectAll()	# TODO bug fix, text is not selected
 
 		self.resourcepath = QRadioButton("Locate the local resource directory")
 		self.resourcepath.setChecked(False)
+
+		self.inputpath = QLineEdit("Enter the path for profile.yaml file")
+		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
+
+		self.browsepath = QPushButton("&Browse")
+		self.browsepath.setObjectName("BrowsePathButton")
+		self.browsepath.setStyleSheet(utils.parseStyleSheet())
 
 		self.group = QButtonGroup(self)
 		self.group.addButton(self.defaultrepo, 0)
@@ -115,14 +121,19 @@ class InputProfileWindow(QDialog):
 		enterrepo_layout.addWidget(self.enterrepo)
 		enterrepo_layout.addWidget(self.inputrepo)
 
+		resourcepath_hlayout = QHBoxLayout()
+		resourcepath_hlayout.addWidget(self.inputpath)
+		resourcepath_hlayout.addWidget(self.browsepath)
+
 		resourcepath_layout = QVBoxLayout()
 		resourcepath_layout.addWidget(self.resourcepath)
+		resourcepath_layout.addLayout(resourcepath_hlayout)
 
 		layout = QGridLayout(self)
 		layout.addWidget(self.windowtitle, 0, 0, 1, 6)
 		layout.addLayout(defaultrepo_layout, 2, 1, 1, 4)
 		layout.addLayout(enterrepo_layout, 3, 1, 1, 4)
-		layout.addWidget(self.resourcepath, 4, 1, 1, 4)
+		layout.addLayout(resourcepath_layout, 4, 1, 1, 4)
 		layout.addWidget(self.select, 6, 2, 1, 1)
 		layout.addWidget(self.cancel, 6, 3, 1, 1)
 		layout.setRowMinimumHeight(0, 24)
@@ -141,6 +152,7 @@ class InputProfileWindow(QDialog):
 		self.defaultrepo.toggled.connect(self.defaultrepooption)
 		self.enterrepo.toggled.connect(self.enterrepooption)
 		self.resourcepath.toggled.connect(self.resourcepathoption)
+		self.browsepath.clicked.connect(self.browse)
 		self.select.clicked.connect(self.processresource)
 		self.cancel.clicked.connect(self.close)
 
@@ -152,6 +164,10 @@ class InputProfileWindow(QDialog):
 
 	def resourcepathoption(self, button):
 		print 'button 3', button
+
+	def browse(self):
+		browsedialog = QFileDialog(self)
+		self.inputpath.setText(browsedialog.getOpenFileName())
 
 	def processresource(self):
 		print 'processing git...'
