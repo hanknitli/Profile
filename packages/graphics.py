@@ -157,6 +157,7 @@ class InputProfileWindow(QDialog):
 		self.setWindowFlags(Qt.FramelessWindowHint | Qt.Dialog)
 		self.setObjectName("InputProfileWindow")
 		self.setStyleSheet(utils.parseStyleSheet())
+		self.setWindowTitle("Select the resource")
 
 	def connections(self):
 		self.defaultrepo.toggled.connect(self.defaultrepooption)
@@ -167,7 +168,10 @@ class InputProfileWindow(QDialog):
 		self.cancel.clicked.connect(self.close)
 
 	def defaultrepooption(self, button):
-		print 'button 1', button  # TODO remove print after test
+		if button:
+			self.defaultrepotext.setStyleSheet(utils.parseStyleSheet())
+		else:
+			self.defaultrepotext.setStyleSheet("background-color: rgb(50, 50, 50)")
 
 	def enterrepooption(self, button):
 		if button:

@@ -137,7 +137,7 @@ def readprofile(basepath):
 	if basepath:
 		profilepath = {"yaml": os.path.join(basepath, "profile.yaml"), "yml": os.path.join(basepath, "profile.yml")}
 		if isProfileExists(profilepath["yaml"]):
-			if isProfileSane(profilepath["yaml"]):
+			if isYAMLSane(profilepath["yaml"]):
 				with open(profilepath["yaml"], "r") as profile_file:
 					profile = yaml.load(profile_file)
 				return profile
@@ -145,7 +145,7 @@ def readprofile(basepath):
 				raise IOError("Profile corrupted")
 
 		elif isProfileExists(profilepath["yml"]):
-			if isProfileSane(profilepath["yml"]):
+			if isYAMLSane(profilepath["yml"]):
 				with open(profilepath["yml"], "r") as profile_file:
 					profile = yaml.load(profile_file)
 				return profile
@@ -162,7 +162,7 @@ def isProfileExists(profilepath):
 	return os.path.isfile(profilepath)
 
 
-def isProfileSane(profilepath):
+def isYAMLSane(profilepath):
 	return True  # TODO check the sanity of profile.yaml file
 
 
