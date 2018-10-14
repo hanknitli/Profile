@@ -82,24 +82,32 @@ class InputProfileWindow(QDialog):
 		self.defaultrepo.setChecked(True)
 		self.defaultrepo.setStyleSheet(utils.parseStyleSheet())
 
-		self.defaultrepotext = QLabel("from https://github.com/hanknitli/profile_resources/")
+		self.defaultrepotext = QLabel("From https://github.com/hanknitli/profile_resources.git")
+		self.defaultrepotext.setObjectName("DefaultRepoText")
+		self.defaultrepotext.setStyleSheet(utils.parseStyleSheet())
+		self.defaultrepotext.setDisabled(True)
+		self.defaultrepotext.setAlignment(Qt.AlignCenter)
 
 		self.enterrepo = QRadioButton("Get the resources from a different repository")
 		self.enterrepo.setChecked(False)
 
 		self.inputrepo = QLineEdit("Enter the .git repository")
 		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
-		self.inputrepo.selectAll()  # TODO bug fix, text is not selected
+		self.inputrepo.setDisabled(True)
+		self.inputrepo.setAlignment(Qt.AlignCenter)
 
 		self.resourcepath = QRadioButton("Locate the local resource directory")
 		self.resourcepath.setChecked(False)
 
 		self.inputpath = QLineEdit("Enter the path for profile.yaml file")
-		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
+		self.inputpath.setStyleSheet(utils.parseStyleSheet())
+		self.inputpath.setDisabled(True)
+		self.inputpath.setAlignment(Qt.AlignCenter)
 
 		self.browsepath = QPushButton("&Browse")
 		self.browsepath.setObjectName("BrowsePathButton")
 		self.browsepath.setStyleSheet(utils.parseStyleSheet())
+		self.browsepath.setDisabled(True)
 
 		self.group = QButtonGroup(self)
 		self.group.addButton(self.defaultrepo, 0)
@@ -159,13 +167,27 @@ class InputProfileWindow(QDialog):
 		self.cancel.clicked.connect(self.close)
 
 	def defaultrepooption(self, button):
-		print 'button 1', button
+		print 'button 1', button  # TODO remove print after test
 
 	def enterrepooption(self, button):
-		print 'button 2', button
+		if button:
+			self.inputrepo.setDisabled(False)
+			self.inputrepo.setFocus()
+			self.inputrepo.clear()
+		else:
+			self.inputrepo.setDisabled(True)
+			self.inputrepo.setText("Enter the .git repository")
 
 	def resourcepathoption(self, button):
-		print 'button 3', button
+		if button:
+			self.inputpath.setDisabled(False)
+			self.inputpath.setFocus()
+			self.inputpath.clear()
+			self.browsepath.setDisabled(False)
+		else:
+			self.inputpath.setDisabled(True)
+			self.inputpath.setText("Enter the path for profile.yaml file")
+			self.browsepath.setDisabled(True)
 
 	def browse(self):
 		browsedialog = QFileDialog(self)
