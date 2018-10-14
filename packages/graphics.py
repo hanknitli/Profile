@@ -1,5 +1,6 @@
 import os
 
+import git
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from packages import utils
@@ -109,6 +110,12 @@ class InputProfileWindow(QDialog):
 		self.browsepath.setStyleSheet(utils.parseStyleSheet())
 		self.browsepath.setDisabled(True)
 
+		self.rememberpath = QCheckBox("&Remember the file path")
+		self.rememberpath.setObjectName("RememberPath")
+		self.rememberpath.setStyleSheet(utils.parseStyleSheet())
+		self.rememberpath.setChecked(False)
+		self.rememberpath.setDisabled(True)
+
 		self.group = QButtonGroup(self)
 		self.group.addButton(self.defaultrepo, 0)
 		self.group.addButton(self.enterrepo, 1)
@@ -134,10 +141,14 @@ class InputProfileWindow(QDialog):
 		resourcepath_hlayout = QHBoxLayout()
 		resourcepath_hlayout.addWidget(self.inputpath)
 		resourcepath_hlayout.addWidget(self.browsepath)
+		checkbox_layout = QHBoxLayout()
+		checkbox_layout.addStretch(1)
+		checkbox_layout.addWidget(self.rememberpath)
 
 		resourcepath_layout = QVBoxLayout()
 		resourcepath_layout.addWidget(self.resourcepath)
 		resourcepath_layout.addLayout(resourcepath_hlayout)
+		resourcepath_layout.addLayout(checkbox_layout)
 
 		layout = QGridLayout(self)
 		layout.addWidget(self.windowtitle, 0, 0, 1, 6)
@@ -188,10 +199,13 @@ class InputProfileWindow(QDialog):
 			self.inputpath.setFocus()
 			self.inputpath.clear()
 			self.browsepath.setDisabled(False)
+			self.rememberpath.setDisabled(False)
 		else:
 			self.inputpath.setDisabled(True)
 			self.inputpath.setText("Enter the path for profile.yaml file")
 			self.browsepath.setDisabled(True)
+			self.rememberpath.setChecked(False)
+			self.rememberpath.setDisabled(True)
 
 	def browse(self):
 		browsedialog = QFileDialog(self)
@@ -200,17 +214,35 @@ class InputProfileWindow(QDialog):
 	def processresource(self):
 		selection = self.group.checkedId()
 
-		if selection == 0:
-			gitpath = "https://github.com/hanknitli/Profile-Resources.git"
-			utils.parseGit(gitpath)
+		# TODO add a progress bar for fetching resources
 
-		elif selection == 1:
-			gitpath = str(self.inputpath.text())
-			utils.parseGit(gitpath)
+		try:
+			if selection == 0:
+				utils.configuration.setDefaultConfigProperty("profilepath")
+				gitpath = "https://github.com/hanknitli/Profile-Resources.git"
+				utils.parseGit(gitpath)
 
-		elif selection == 2:
-			path = str(self.inputpath.text())
-			utils.configuration.profilepath = os.path.dirname(path)
+			elif selection == 1:
+				utils.configuration.setDefaultConfigProperty("profilepath")
+				gitpath = str(self.inputrepo.text())
+				utils.parseGit(gitpath)
+
+			elif selection == 2:
+				path = str(self.inputpath.text())
+				utils.configuration.profilepath = os.path.dirname(path)
+				if self.rememberpath.isChecked():
+					utils.configuration.updateConfFile()
+
+		except git.GitCommandError as reason:
+			self.hide()
+			showerror("Git Error", str(reason.stderr))
+
+		except Exception as reason:
+			self.hide()
+			showerror("Error in Resource", str(reason))
+
+		finally:
+			utils.cleanProfileDir()
 
 		self.close()
 
@@ -222,3 +254,15 @@ class ToolTip(QLabel):
 		self.setWindowFlags(Qt.ToolTip)
 		self.setFrameShape(QFrame.StyledPanel)
 		self.hide()  # TODO implement a tooltip mechanism (maybe mousetracking and hover event)
+
+
+def showerror(title=None, reason=None, parent=None):
+	error = ErrorWindow(parent)
+	if not title:
+		title = "Error"
+	if not reason:
+		content = "Unknown Error"
+	else:
+		content = reason
+	error.showError(title.strip(), content.strip())
+	error.exec_()

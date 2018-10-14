@@ -35,13 +35,13 @@ class Configuration:
 	def initConfFile(self):
 		if not self.isConfFileExists():
 			self.createConfFile()
-		self.setConfig()
+		self.setconfig(self.readconfig())
 
 	def isConfFileExists(self):
 		return os.path.isfile(self.configfile)
 
 	def createConfFile(self):
-		default_config = self.defaultConfig()
+		default_config = self.getDefaultConfig()
 		try:
 			os.makedirs(os.path.dirname(self.configfile))
 
@@ -52,48 +52,73 @@ class Configuration:
 		with open(self.configfile, "w") as config:
 			yaml.dump(default_config, config, default_flow_style=False)
 
-	def defaultConfig(self):
-		with open("resources/default_config.yaml", "r") as default_config:
-			config = yaml.load(default_config)
+	def getDefaultConfig(self):
+		with open("resources/default_config.yaml", "r") as default_configfile:
+			config = yaml.load(default_configfile)
 
 		if sys.platform == "win32":
-			self.logfile = config["logfile"]["Windows"]
+			logfile = config["logfile"]["Windows"]
 			basepath = os.getenv(config["profilepath"]["Windows"])
-			self.profilepath = os.path.join(basepath, ".profile")
+			profilepath = os.path.join(basepath, ".profile")
 
 		elif sys.platform == "linux2":
 			basepath = os.path.expanduser(config["logfile"]["Linux"])
-			self.logfile = os.path.join(basepath, parent_linux, __project_name__, "log.txt")
+			logfile = os.path.join(basepath, parent_linux, __project_name__, "log.txt")
 
 			basepath = os.path.expanduser((config["profilepath"]["Linux"]))
-			self.profilepath = os.path.join(basepath, parent_linux, __project_name__, ".profile")
+			profilepath = os.path.join(basepath, parent_linux, __project_name__, ".profile")
 
-		self.showtoolbar = config["showtoolbar"]
-		self.expandedTree = config["expandedTree"]
-		self.scrollbar = config["scrollbar"]
+		showtoolbar = config["showtoolbar"]
+		expandedTree = config["expandedTree"]
+		scrollbar = config["scrollbar"]
 
-		default_config = {"logfile": self.logfile, "showtoolbar": self.showtoolbar, "profilepath": self.profilepath, \
-						  "expandedTree": self.expandedTree, "scrollbar": self.scrollbar}
+		default_config = {"logfile": logfile, "showtoolbar": showtoolbar, "profilepath": profilepath, \
+						  "expandedTree": expandedTree, "scrollbar": scrollbar}
 		return default_config
-
-	def setConfig(self):
-		config = self.readconfig()
-
-		self.logfile = config["logfile"]
-		self.showtoolbar = config["showtoolbar"]
-		self.profilepath = config["profilepath"]
-		self.expandedTree = config["expandedTree"]
-		self.scrollbar = config["scrollbar"]
 
 	def readconfig(self):
 		if not self.isConfFileExists():
 			self.createConfFile()
-			return self.defaultConfig()
+			return self.getDefaultConfig()
 
 		else:
 			with open(self.configfile, "r") as config:
 				data = yaml.load(config)
 			return data
+
+	def updateConfFile(self, setToDefault=False):
+		if not self.isConfFileExists():
+			self.createConfFile()
+
+		elif setToDefault:
+			default_config = self.getDefaultConfig()
+			with open(self.configfile, "w") as config:
+				yaml.dump(default_config, config, default_flow_style=False)
+
+		else:
+			config_data = self.getconfig()
+			with open(self.configfile, "w") as config:
+				yaml.dump(config_data, config, default_flow_style=False)
+
+	def getconfig(self):
+		config = {"logfile": self.logfile, "showtoolbar": self.showtoolbar, "profilepath": self.profilepath, \
+				  "expandedTree": self.expandedTree, "scrollbar": self.scrollbar}
+
+		return config
+
+	def setconfig(self, config_data):
+		self.logfile = config_data["logfile"]
+		self.showtoolbar = config_data["showtoolbar"]
+		self.profilepath = config_data["profilepath"]
+		self.expandedTree = config_data["expandedTree"]
+		self.scrollbar = config_data["scrollbar"]
+
+	def setDefaultConfigProperty(self, key):
+		default_config = configuration.getDefaultConfig()
+		config_data = self.getconfig()
+		config_data[key] = default_config[key]
+		self.setconfig(config_data)
+		self.updateConfFile()
 
 	def initLogFile(self):
 		if not self.isLogFileExists():
@@ -169,17 +194,29 @@ def isYAMLSane(profilepath):
 
 
 def parseGit(gitpath):
+	cleanProfileDir(True)
+	repo = git.Repo.init(configuration.profilepath)
+	origin = repo.create_remote('origin', gitpath)
+	origin.fetch()
+	origin.pull(origin.refs[0].remote_head)
+
+
+def cleanProfileDir(fullclean=False):
 	try:
-		repo = git.Repo.init(configuration.profilepath)
-		origin = repo.create_remote('origin', gitpath)
-		origin.fetch()
-		origin.pull(origin.refs[0].remote_head)
+		base = configuration.profilepath
+		for content in os.listdir(base):
+			if fullclean:
+				entry = os.path.join(base, content)
+				if os.path.isfile(entry):
+					os.remove(entry)
+				else:
+					shutil.rmtree(entry)
+			elif content == ".git":
+				shutil.rmtree(os.path.join(base, ".git"))
 
-	except Exception as reason:
-		print reason
+	except OSError as reason:
+		pass  # TODO log the error in log.txt
 
-	finally:
-		shutil.rmtree(os.path.join(configuration.profilepath, ".git"))
 
 # all the things read from the config.yaml file
 configuration = Configuration()

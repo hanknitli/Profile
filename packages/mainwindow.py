@@ -1,5 +1,3 @@
-import os
-
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from packages import utils
@@ -129,6 +127,9 @@ class MainWindow(QMainWindow):
 		self.toolbar.addActions([self.scrollbar])
 		self.toolbar.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
 
+		if not utils.configuration.showtoolbar:
+			self.toolbar.close()
+
 	def connections(self):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
 		self.exit.triggered.connect(self.close)
@@ -220,10 +221,11 @@ class MainWidget(QWidget):
 				self.parseprofile(profile)
 
 			except IOError as reason:
-				print reason.message  # TODO show an error saying profile not found
+				graphics.showerror("Profile Error", str(reason))
 
 		except Exception as reason:
-			print "yaml corrupted"  # TODO show an error saying yaml corrupted
+			content = "Corrupted profile.yaml file\n" + str(reason)
+			graphics.showerror("Profile Error", content)
 
 	def parseprofile(self, profile, item=None):
 		if not item:

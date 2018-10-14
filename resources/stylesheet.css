@@ -47,6 +47,7 @@ QPushButton#closeButton {
 	border-style: solid;
 	border-color: rgb(73, 73, 73);
 	border-width: 1px;
+	outline:none;
 }
 
 QPushButton#closeButton:hover {
@@ -196,6 +197,48 @@ QPushButton#BrowsePathButton:disabled {
 	padding-top: 9px;
 	padding-bottom: 9px;
 	outline: none;
+}
+
+QCheckBox#RememberPath {
+    background-color: rgb(48, 48, 48);
+    color: rgb(170, 170, 170);
+    font: monospace;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: rgb(43, 43, 43);
+    border-width: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    outline: None;
+}
+
+QCheckBox#RememberPath:disabled {
+    background-color: rgb(53, 53, 53);
+}
+
+QCheckBox#RememberPath:hover {
+    background-color: rgb(43, 43, 43);
+}
+
+QCheckBox#RememberPath:checked {
+    background-color: rgb(37, 37, 37);
+}
+
+QCheckBox#RememberPath::indicator {
+    background-color: rgb(53, 53, 53);
+    width: 12px;
+    height: 12px;
+    border-style: solid;
+    border-radius: 7px;
+    border-color: rgb(53, 53, 53);
+    border-width: 2px;
+}
+
+QCheckBox#RememberPath::indicator:checked {
+    background-color: rgb(23, 23, 23);
+    border-color: rgb(63, 63, 63);
 }
 
 QPushButton#profileButton {
