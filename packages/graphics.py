@@ -79,8 +79,17 @@ class InputProfileWindow(QDialog):
 		self.defaultrepo = QRadioButton("Get the resources from default repository")
 		self.defaultrepo.setChecked(True)
 		self.defaultrepo.setStyleSheet(utils.parseStyleSheet())
-		self.enterrepo = QRadioButton("Get the repository from a different repository")
+
+		self.defaultrepotext = QLabel("from https://github.com/hanknitli/profile_resources/")
+
+		self.enterrepo = QRadioButton("Get the resources from a different repository")
 		self.enterrepo.setChecked(False)
+
+		self.inputrepo = QLineEdit("Enter the .git repository")
+		self.inputrepo.setObjectName("InputRepo")
+		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
+		self.inputrepo.selectAll()
+
 		self.resourcepath = QRadioButton("Locate the local resource directory")
 		self.resourcepath.setChecked(False)
 
@@ -98,10 +107,21 @@ class InputProfileWindow(QDialog):
 
 		# TODO add a dynamic layout arrangement (stack layout?)
 
+		defaultrepo_layout = QVBoxLayout()
+		defaultrepo_layout.addWidget(self.defaultrepo)
+		defaultrepo_layout.addWidget(self.defaultrepotext)
+
+		enterrepo_layout = QVBoxLayout()
+		enterrepo_layout.addWidget(self.enterrepo)
+		enterrepo_layout.addWidget(self.inputrepo)
+
+		resourcepath_layout = QVBoxLayout()
+		resourcepath_layout.addWidget(self.resourcepath)
+
 		layout = QGridLayout(self)
 		layout.addWidget(self.windowtitle, 0, 0, 1, 6)
-		layout.addWidget(self.defaultrepo, 2, 1, 1, 4)
-		layout.addWidget(self.enterrepo, 3, 1, 1, 4)
+		layout.addLayout(defaultrepo_layout, 2, 1, 1, 4)
+		layout.addLayout(enterrepo_layout, 3, 1, 1, 4)
 		layout.addWidget(self.resourcepath, 4, 1, 1, 4)
 		layout.addWidget(self.select, 6, 2, 1, 1)
 		layout.addWidget(self.cancel, 6, 3, 1, 1)
