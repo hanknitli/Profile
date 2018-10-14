@@ -163,7 +163,7 @@ def isProfileExists(profilepath):
 
 
 def isProfileSane(profilepath):
-	pass  # TODO check the sanity of profile.yaml file
+	return True  # TODO check the sanity of profile.yaml file
 
 
 def parseGit(gitpath):
