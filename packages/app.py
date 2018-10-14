@@ -20,7 +20,7 @@ def run():
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())
 
-	# check for the config.yaml file
+	# check for the log.txt file
 	try:
 		utils.configuration.initLogFile()
 

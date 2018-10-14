@@ -167,7 +167,7 @@ def isProfileSane(profilepath):
 
 
 def parseGit(gitpath):
-	print 'parsing git ...'  # TODO parse the git path, download the resources to "resource path"
+	print 'parsing git ...'  # TODO parse the git path, download the resources to "profile path"
 
 
 # all the things read from the config.yaml file
