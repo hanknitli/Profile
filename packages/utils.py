@@ -137,13 +137,21 @@ def readprofile(basepath):
 	if basepath:
 		profilepath = {"yaml": os.path.join(basepath, "profile.yaml"), "yml": os.path.join(basepath, "profile.yml")}
 		if isProfileExists(profilepath["yaml"]):
-			with open(profilepath["yaml"], "r") as profile_file:
-				profile = yaml.load(profile_file)
-			return profile
-		if isProfileExists(profilepath["yml"]):
-			with open(profilepath["yml"], "r") as profile_file:
-				profile = yaml.load(profile_file)
-			return profile
+			if isProfileSane(profilepath["yaml"]):
+				with open(profilepath["yaml"], "r") as profile_file:
+					profile = yaml.load(profile_file)
+				return profile
+			else:
+				raise IOError("Profile corrupted")
+
+		elif isProfileExists(profilepath["yml"]):
+			if isProfileSane(profilepath["yml"]):
+				with open(profilepath["yml"], "r") as profile_file:
+					profile = yaml.load(profile_file)
+				return profile
+			else:
+				raise IOError("Profile corrupted")
+
 		else:
 			raise IOError("Profile not found")
 	else:
@@ -152,6 +160,14 @@ def readprofile(basepath):
 
 def isProfileExists(profilepath):
 	return os.path.isfile(profilepath)
+
+
+def isProfileSane(profilepath):
+	pass  # TODO check the sanity of profile.yaml file
+
+
+def parseGit(gitpath):
+	print 'parsing git ...'  # TODO parse the git path, download the resources to "resource path"
 
 
 # all the things read from the config.yaml file

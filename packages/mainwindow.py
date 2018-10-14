@@ -222,11 +222,6 @@ class MainWidget(QWidget):
 			except IOError as reason:
 				print reason.message  # TODO show an error saying profile not found
 
-		# TODO show a popup with mandatory checkbox saying,
-		# TODO get resources from repository or enter a path to the existing .profile folder
-		# TODO if the user checks on "checkout from git", give the url input box to enter the .git url
-		# TODO if the user checks on "I have the resources", give the input box to enter the local path for .profile
-
 		except Exception as reason:
 			print "yaml corrupted"  # TODO show an error saying yaml corrupted
 

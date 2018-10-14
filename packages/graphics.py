@@ -1,3 +1,5 @@
+import os
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 from packages import utils
@@ -87,7 +89,7 @@ class InputProfileWindow(QDialog):
 
 		self.inputrepo = QLineEdit("Enter the .git repository")
 		self.inputrepo.setStyleSheet(utils.parseStyleSheet())
-		self.inputrepo.selectAll()	# TODO bug fix, text is not selected
+		self.inputrepo.selectAll()  # TODO bug fix, text is not selected
 
 		self.resourcepath = QRadioButton("Locate the local resource directory")
 		self.resourcepath.setChecked(False)
@@ -170,8 +172,20 @@ class InputProfileWindow(QDialog):
 		self.inputpath.setText(browsedialog.getOpenFileName())
 
 	def processresource(self):
-		print 'processing git...'
-		print self.group.checkedId()
+		selection = self.group.checkedId()
+
+		if selection == 0:
+			gitpath = "https://github.com/hanknitli/profile_resources.git"
+			utils.parseGit(gitpath)
+
+		elif selection == 1:
+			gitpath = str(self.inputpath.text())
+			utils.parseGit(gitpath)
+
+		elif selection == 2:
+			path = str(self.inputpath.text())
+			utils.configuration.profilepath = os.path.dirname(path)
+
 		self.close()
 
 
