@@ -82,7 +82,7 @@ class InputProfileWindow(QDialog):
 		self.defaultrepo.setChecked(True)
 		self.defaultrepo.setStyleSheet(utils.parseStyleSheet())
 
-		self.defaultrepotext = QLabel("From https://github.com/hanknitli/profile_resources.git")
+		self.defaultrepotext = QLabel("From https://github.com/hanknitli/Profile-Resources.git")
 		self.defaultrepotext.setObjectName("DefaultRepoText")
 		self.defaultrepotext.setStyleSheet(utils.parseStyleSheet())
 		self.defaultrepotext.setDisabled(True)
@@ -201,7 +201,7 @@ class InputProfileWindow(QDialog):
 		selection = self.group.checkedId()
 
 		if selection == 0:
-			gitpath = "https://github.com/hanknitli/profile_resources.git"
+			gitpath = "https://github.com/hanknitli/Profile-Resources.git"
 			utils.parseGit(gitpath)
 
 		elif selection == 1:

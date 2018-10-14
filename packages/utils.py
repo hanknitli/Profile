@@ -1,8 +1,10 @@
+import shutil
 import sys
 import os
 import errno
 import time
 
+import git
 import yaml
 
 execfile("packages/constants.py")
@@ -167,8 +169,17 @@ def isYAMLSane(profilepath):
 
 
 def parseGit(gitpath):
-	print 'parsing git ...'  # TODO parse the git path, download the resources to "profile path"
+	try:
+		repo = git.Repo.init(configuration.profilepath)
+		origin = repo.create_remote('origin', gitpath)
+		origin.fetch()
+		origin.pull(origin.refs[0].remote_head)
 
+	except Exception as reason:
+		print reason
+
+	finally:
+		shutil.rmtree(os.path.join(configuration.profilepath, ".git"))
 
 # all the things read from the config.yaml file
 configuration = Configuration()
