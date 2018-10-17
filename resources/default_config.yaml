@@ -6,7 +6,7 @@ logfile:
   Linux: ~/.config
 showtoolbar: true
 profilepath:
-  Windows: Users
+  Windows: AppData
   Linux: ~/.config/
 expandedTree: True
 scrollbar: True
