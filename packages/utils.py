@@ -221,9 +221,9 @@ def cleanProfileDir(fullclean=False):
 
 def caughtError(func, path, exc):
 	if sys.platform == "win32":
-		os.system('rmdir /S /Q "{}"'.format(path))
+		os.system('rmdir /S /Q "{}" > nul 2> nul'.format(path))
 	elif sys.platform == "linux2":
-		os.system('rm -rdf {}'.format(path))
+		os.system('rm -rdf {} > /dev/null 2> /dev/null'.format(path))
 
 # all the things read from the config.yaml file
 configuration = Configuration()
