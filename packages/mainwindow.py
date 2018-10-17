@@ -148,7 +148,9 @@ class MainWindow(QMainWindow):
 
 	def itemChanged(self):
 		item = self.mainwidget.treewidget.selectedItems()
-		self.setCurrentItem(item[0], 0)
+		# check if the list is empty
+		if len(item):
+			self.setCurrentItem(item[0], 0)
 		path = self.getrootpath(self.mainwidget.currentitem)
 
 		windowtitle = str(path.pop(0).text(0)) + " ["
