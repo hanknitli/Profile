@@ -59,7 +59,7 @@ class Configuration:
 		if sys.platform == "win32":
 			logfile = config["logfile"]["Windows"]
 			basepath = os.getenv(config["profilepath"]["Windows"])
-			profilepath = os.path.join(basepath, ".profile")
+			profilepath = os.path.join(basepath, parent_windows, __project_name__, "Resources")
 
 		elif sys.platform == "linux2":
 			basepath = os.path.expanduser(config["logfile"]["Linux"])
@@ -210,13 +210,20 @@ def cleanProfileDir(fullclean=False):
 				if os.path.isfile(entry):
 					os.remove(entry)
 				else:
-					shutil.rmtree(entry)
+					shutil.rmtree(entry, ignore_errors=False, onerror=caughtError)
 			elif content == ".git":
-				shutil.rmtree(os.path.join(base, ".git"))
+				shutil.rmtree(os.path.join(base, ".git"), ignore_errors=False, onerror=caughtError)
 
 	except OSError as reason:
+		print reason
 		pass  # TODO log the error in log.txt
 
+
+def caughtError(func, path, exc):
+	if sys.platform == "win32":
+		os.system('rmdir /S /Q "{}"'.format(path))
+	elif sys.platform == "linux2":
+		os.system('rm -rdf {}'.format(path))
 
 # all the things read from the config.yaml file
 configuration = Configuration()
