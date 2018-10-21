@@ -123,6 +123,8 @@ class MainWindow(QMainWindow):
 		self.collapseall.setIcon(QIcon())  # TODO add an icon
 		self.collapseall.setStatusTip("Collapse all the tree elements")
 
+		self.tools.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
+
 	def initToolbar(self):
 		self.toolbar.setMovable(False)
 		self.toolbar.setObjectName("MainToolBar")
