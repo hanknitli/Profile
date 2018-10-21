@@ -62,13 +62,19 @@ class MainWindow(QMainWindow):
 		self.sync = QAction("&Synchronize", self)
 		self.sync.setIcon(QIcon())  # TODO set an icon
 		self.sync.setShortcut("")  # TODO define a shortcut
+		self.sync.setStatusTip("Sync the app with profile.yaml")
+
+		self.syncresource = QAction("&Synchronize Resources", self)
+		self.syncresource.setIcon(QIcon())  # TODO set an icon
+		self.syncresource.setShortcut("")  # TODO define a shortcut
+		self.syncresource.setStatusTip("Sync the local resource with a repository")
 
 		self.exit = QAction("&Exit", self)
 		self.exit.setShortcut("Alt+F4")
 		self.exit.setStatusTip("Exit the application")
 
 		# add the sub items to the File menu
-		self.file.addActions([self.new, self.sync, self.exit])
+		self.file.addActions([self.new, self.sync, self.syncresource, self.exit])
 
 		# Edit menu item for the menu bar
 		self.edit = QMenu("&Edit")
@@ -123,7 +129,7 @@ class MainWindow(QMainWindow):
 		self.toolbar.setObjectName("MainToolBar")
 		self.toolbar.setStyleSheet(utils.parseStyleSheet())
 
-		self.toolbar.addActions([self.new, self.exit, self.sync])
+		self.toolbar.addActions([self.new, self.exit, self.sync, self.syncresource])
 		self.toolbar.addActions([self.scrollbar])
 		self.toolbar.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
 
@@ -132,6 +138,7 @@ class MainWindow(QMainWindow):
 
 	def connections(self):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
+		self.syncresource.triggered.connect(self.mainwidget.synchronizeresource)
 		self.exit.triggered.connect(self.close)
 		self.scrollbar.triggered.connect(self.mainwidget.togglescrollbar)
 		self.showtoolbar.triggered.connect(self.toggletoolbar)
@@ -275,6 +282,20 @@ class MainWidget(QWidget):
 
 	def synchronize(self):
 		self.treewidget.clear()
+		self.maketree()
+		self.setTreeStyle()
+
+	def synchronizeresource(self):
+		self.treewidget.clear()
+		inputprofilewindow = graphics.InputProfileWindow(self)
+		inputprofilewindow.exec_()
+		try:
+			profile = utils.readprofile(utils.configuration.profilepath)
+			self.parseprofile(profile)
+
+		except IOError as reason:
+			graphics.showerror("Profile Error", str(reason))
+
 		self.maketree()
 		self.setTreeStyle()
 
