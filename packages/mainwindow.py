@@ -108,11 +108,11 @@ class MainWindow(QMainWindow):
 		# sub items in Tools menu
 
 		self.expand = QAction("Expand This", self)
-		self.expand.setIcon(QIcon())  # TODO add an icon
+		self.expand.setIcon(QIcon("resources/Icons/expandThis.png"))
 		self.expand.setStatusTip("Expand all the elements under this item")
 
 		self.collapse = QAction("Collapse This", self)
-		self.collapse.setIcon(QIcon())  # TODO add an icon
+		self.collapse.setIcon(QIcon("resources/Icons/collapseThis.png"))
 		self.collapse.setStatusTip("Collapse all the elements under this item")
 
 		self.expandall = QAction("Expand All", self)
