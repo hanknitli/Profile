@@ -25,6 +25,9 @@ class MainWindow(QMainWindow):
 		self.mainwidget = MainWidget(self)
 		self.setCentralWidget(self.mainwidget)
 
+		# initialize scroll bar check mark
+		self.initScrollbar()
+
 		self.setObjectName("Profile")
 		self.setStyleSheet(utils.parseStyleSheet())
 
@@ -89,11 +92,9 @@ class MainWindow(QMainWindow):
 
 		# sub items in View menu
 		self.scrollbar = QAction("Scrollbar", self)
-		self.scrollbar.setIcon(QIcon())  # TODO add the checkmark icon
 		self.scrollbar.setStatusTip("Show/Hide the tree's scrollbar")
 
 		self.showtoolbar = QAction("Toolbar", self)
-		self.showtoolbar.setIcon(QIcon())  # TODO add the checkmark icon
 		self.showtoolbar.setStatusTip("Show/Hide the main toolbar")
 
 		# add the sub items to the View menu
@@ -136,12 +137,21 @@ class MainWindow(QMainWindow):
 
 		if not utils.configuration.showtoolbar:
 			self.toolbar.close()
+			self.showtoolbar.setIcon(QIcon())
+		else:
+			self.showtoolbar.setIcon(QIcon("resources/Icons/checked.png"))
+
+	def initScrollbar(self):
+		if self.mainwidget._scrollbarset:
+			self.scrollbar.setIcon(QIcon("resources/Icons/checked.png"))
+		else:
+			self.scrollbar.setIcon(QIcon())
 
 	def connections(self):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
 		self.syncresource.triggered.connect(self.mainwidget.synchronizeresource)
 		self.exit.triggered.connect(self.close)
-		self.scrollbar.triggered.connect(self.mainwidget.togglescrollbar)
+		self.scrollbar.triggered.connect(self.togglescrollbar)
 		self.showtoolbar.triggered.connect(self.toggletoolbar)
 		self.expand.triggered.connect(self.mainwidget.expandthis)
 		self.collapse.triggered.connect(self.mainwidget.collapsethis)
@@ -152,7 +162,21 @@ class MainWindow(QMainWindow):
 		self.mainwidget.treewidget.itemSelectionChanged.connect(self.itemChanged)
 
 	def toggletoolbar(self):
+		checked = self.toolbar.isVisible()
+		if not checked:
+			self.showtoolbar.setIcon(QIcon("resources/Icons/checked.png"))
+		else:
+			self.showtoolbar.setIcon(QIcon())
 		self.toolbar.toggleViewAction().trigger()
+
+	def togglescrollbar(self):
+		if self.mainwidget._scrollbarset:
+			self.mainwidget.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+			self.scrollbar.setIcon(QIcon())
+		else:
+			self.mainwidget.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+			self.scrollbar.setIcon(QIcon("resources/Icons/checked.png"))
+		self.mainwidget._scrollbarset = not self.mainwidget._scrollbarset
 
 	def itemChanged(self):
 		item = self.mainwidget.treewidget.selectedItems()
@@ -273,13 +297,6 @@ class MainWidget(QWidget):
 			else:
 				break
 		return rootitems
-
-	def togglescrollbar(self):
-		if self._scrollbarset:
-			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-		else:
-			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-		self._scrollbarset = not self._scrollbarset
 
 	def synchronize(self):
 		self.treewidget.clear()
