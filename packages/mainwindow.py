@@ -304,7 +304,6 @@ class MainWidget(QWidget):
 		self.setTreeStyle()
 
 	def synchronizeresource(self):
-		self.treewidget.clear()
 		inputprofilewindow = graphics.InputProfileWindow(self)
 		inputprofilewindow.exec_()
 		try:
@@ -314,6 +313,7 @@ class MainWidget(QWidget):
 		except IOError as reason:
 			graphics.showerror("Profile Error", str(reason))
 
+		self.treewidget.clear()
 		self.maketree()
 		self.setTreeStyle()
 
