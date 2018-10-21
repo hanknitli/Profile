@@ -123,17 +123,17 @@ class MainWindow(QMainWindow):
 		self.collapseall.setIcon(QIcon())  # TODO add an icon
 		self.collapseall.setStatusTip("Collapse all the tree elements")
 
-		# add the sub items to the Tools menu
-		self.tools.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
-
 	def initToolbar(self):
 		self.toolbar.setMovable(False)
 		self.toolbar.setObjectName("MainToolBar")
 		self.toolbar.setStyleSheet(utils.parseStyleSheet())
 
-		self.toolbar.addActions([self.new, self.exit, self.sync, self.syncresource])
-		self.toolbar.addActions([self.scrollbar])
-		self.toolbar.addActions([self.expand, self.collapse, self.expandall, self.collapseall])
+		self.toolbar.addActions([self.new, self.sync, self.syncresource])
+		self.toolbar.addSeparator()
+		self.toolbar.addActions([self.expand, self.collapse])
+		self.toolbar.addSeparator()
+		self.toolbar.addActions([self.expandall, self.collapseall])
+		self.toolbar.addSeparator()
 
 		if not utils.configuration.showtoolbar:
 			self.toolbar.close()
