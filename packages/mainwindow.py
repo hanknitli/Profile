@@ -56,20 +56,21 @@ class MainWindow(QMainWindow):
 
 		# sub items in File menu
 		self.new = QAction("&New", self)
-		self.new.setIcon(QIcon())  # TODO fix the icon popup
+		self.new.setIcon(QIcon("resources/Icons/newFolder.png"))  # TODO fix the icon popup
 		self.new.setShortcut("Ctrl+Shift+N")
 
 		self.sync = QAction("&Synchronize", self)
-		self.sync.setIcon(QIcon())  # TODO set an icon
+		self.sync.setIcon(QIcon("resources/Icons/sync.png"))
 		self.sync.setShortcut("")  # TODO define a shortcut
 		self.sync.setStatusTip("Sync the app with profile.yaml")
 
 		self.syncresource = QAction("&Synchronize Resources", self)
-		self.syncresource.setIcon(QIcon())  # TODO set an icon
+		self.syncresource.setIcon(QIcon("resources/Icons/syncResources.png"))
 		self.syncresource.setShortcut("")  # TODO define a shortcut
 		self.syncresource.setStatusTip("Sync the local resource with a repository")
 
 		self.exit = QAction("&Exit", self)
+		self.exit.setIcon(QIcon("resources/Icons/exit.png"))
 		self.exit.setShortcut("Alt+F4")
 		self.exit.setStatusTip("Exit the application")
 
