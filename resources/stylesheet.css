@@ -356,6 +356,11 @@ QTreeWidget#TreeWidget {
 	border-width: 0px;
 }
 
+QTreeWidget#TreeWidget::item:selected {
+	background-color: rgb(60, 50, 255);
+	color: white;
+}
+
 QScrollBar:vertical {
 	background-color: rgb(53, 53, 53);
 	width: 7px;
@@ -394,7 +399,7 @@ QWidget#SearchTree {
 }
 
 QLineEdit#SearchTreeBar {
-    background-color: rgb(53, 53, 53);
+    background-color: rgb(58, 58, 58);
     color: rgb(170, 170, 170);
     font-size: 12px;
     font-family: monospace;

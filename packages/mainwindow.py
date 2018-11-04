@@ -230,13 +230,22 @@ class MainWindow(QMainWindow):
 		self.mainwidget.searchtree.index = index
 		text = self.mainwidget.searchtree.searchbar.text()
 		if not text:
+			self.clearSelectItems(self.mainwidget.searchtree.result)
 			self.mainwidget.searchtree.matches.hide()
 			return  # Return if there is nothing to search
 		else:
 			self.mainwidget.searchtree.matches.show()
 
+		# Clear the previously selected items
+		if self.mainwidget.searchtree.result:
+			self.clearSelectItems(self.mainwidget.searchtree.result)
+
 		self.mainwidget.searchtree.result = self.mainwidget.treewidget.findItems(text,
 																				 Qt.MatchContains | Qt.MatchRecursive)
+
+		# Select the newly searched items
+		if self.mainwidget.searchtree.result:
+			self.selectItems(self.mainwidget.searchtree.result)
 
 		if not self.mainwidget.searchtree.result:
 			# List is empty, return
@@ -279,6 +288,13 @@ class MainWindow(QMainWindow):
 
 		self.mainwidget.searchtree.index = index
 
+	def selectItems(self, result):
+		for item in result:
+			item.setSelected(True)
+
+	def clearSelectItems(self, result):
+		for item in result:
+			item.setSelected(False)
 
 class MainWidget(QWidget):
 	def __init__(self, parent=None):
