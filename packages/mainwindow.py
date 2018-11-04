@@ -2,6 +2,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from packages import utils
 from packages import graphics
+from packages import QtClasses
 
 
 class MainWindow(QMainWindow):
@@ -229,7 +230,7 @@ class MainWidget(QWidget):
 		self.treewidget = QTreeWidget(self)
 		self.inittree()
 
-		self.searchtree = QLineEdit()
+		self.searchtree = QtClasses.SearchLineEdit()
 		self.searchtree.hide()
 
 		leftpane = QVBoxLayout()
