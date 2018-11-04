@@ -26,11 +26,17 @@ class SearchTree(QWidget):
 		self.matches = QLabel()
 		self.matches.setObjectName("SearchTreeMatches")
 
+		self.closesearch = QToolButton(self)
+		self.closesearch.setIcon(QIcon("resources/Icons/close.png"))
+		self.closesearch.setObjectName("SearchTreeClose")
+		self.closesearch.setToolTip("Close Search")
+
 		searchpane = QHBoxLayout(self)
 		searchpane.addWidget(self.searchbar)
 		searchpane.addWidget(self.searchnext)
 		searchpane.addWidget(self.searchprevious)
 		searchpane.addWidget(self.matches)
+		searchpane.addWidget(self.closesearch)
 
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Escape:

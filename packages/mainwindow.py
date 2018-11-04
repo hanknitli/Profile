@@ -174,6 +174,7 @@ class MainWindow(QMainWindow):
 		self.mainwidget.searchtree.searchbar.textChanged.connect(self.searchintree)
 		self.mainwidget.searchtree.searchnext.clicked.connect(self.searchtreenext)
 		self.mainwidget.searchtree.searchprevious.clicked.connect(self.searchtreeprevious)
+		self.mainwidget.searchtree.closesearch.clicked.connect(self.mainwidget.searchtree.close)
 
 	def toggletoolbar(self):
 		checked = self.toolbar.isVisible()
