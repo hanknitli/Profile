@@ -417,3 +417,9 @@ QToolButton#SearchTreeNext {
 QToolButton#SearchTreePrevious {
 	border: none;
 }
+
+QLabel#SearchTreeMatches {
+	color: rgb(200, 200, 200);
+    font-size: 11px;
+    font-family: monospace;
+}

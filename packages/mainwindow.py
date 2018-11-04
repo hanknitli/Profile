@@ -161,7 +161,7 @@ class MainWindow(QMainWindow):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
 		self.syncresource.triggered.connect(self.mainwidget.synchronizeresource)
 		self.exit.triggered.connect(self.close)
-		self.findInTree.triggered.connect(self.mainwidget.searchintree)
+		self.findInTree.triggered.connect(self.mainwidget.showtreesearch)
 		self.scrollbar.triggered.connect(self.togglescrollbar)
 		self.showtoolbar.triggered.connect(self.toggletoolbar)
 		self.expand.triggered.connect(self.mainwidget.expandthis)
@@ -171,7 +171,9 @@ class MainWindow(QMainWindow):
 
 		self.mainwidget.treewidget.itemClicked.connect(self.setCurrentItem)
 		self.mainwidget.treewidget.itemSelectionChanged.connect(self.itemChanged)
-		self.mainwidget.searchtree.searchbar.textChanged.connect(self.searchtree)
+		self.mainwidget.searchtree.searchbar.textChanged.connect(self.searchintree)
+		self.mainwidget.searchtree.searchnext.clicked.connect(self.searchtreenext)
+		self.mainwidget.searchtree.searchprevious.clicked.connect(self.searchtreeprevious)
 
 	def toggletoolbar(self):
 		checked = self.toolbar.isVisible()
@@ -218,8 +220,64 @@ class MainWindow(QMainWindow):
 				break
 		return path
 
-	def searchtree(self):
-		pass
+	def getroot(self, item):
+		rootpath = self.getrootpath(item)
+		return rootpath[-1]
+
+	def searchintree(self):
+		index = 0
+		self.mainwidget.searchtree.index = index
+		text = self.mainwidget.searchtree.searchbar.text()
+		if not text:
+			self.mainwidget.searchtree.matches.hide()
+			return  # Return if there is nothing to search
+		else:
+			self.mainwidget.searchtree.matches.show()
+
+		self.mainwidget.searchtree.result = self.mainwidget.treewidget.findItems(text,
+																				 Qt.MatchContains | Qt.MatchRecursive)
+
+		if not self.mainwidget.searchtree.result:
+			# List is empty, return
+			self.mainwidget.searchtree.searchbar.setStyleSheet("background: rgb(100, 0, 0);")
+			self.mainwidget.searchtree.matches.setText("No Matches")
+			return
+		else:
+			matches = len(self.mainwidget.searchtree.result)
+			self.mainwidget.searchtree.matches.setText(str(matches) + " Matches")
+			self.mainwidget.searchtree.searchbar.setStyleSheet(utils.parseStyleSheet())
+
+		match = self.mainwidget.searchtree.result[index]
+
+		self.mainwidget.collapsetree()
+		self.mainwidget.expand(self.getroot(match))
+		self.mainwidget.treewidget.scrollToItem(match)
+		print match.text(0)
+
+	def searchtreenext(self):
+		index = self.mainwidget.searchtree.index
+		matches = len(self.mainwidget.searchtree.result)
+
+		if index == (matches - 1):
+			index = 0
+
+		else:
+			index = index + 1
+
+		self.mainwidget.searchtree.index = index
+
+	def searchtreeprevious(self):
+		index = self.mainwidget.searchtree.index
+		matches = len(self.mainwidget.searchtree.result)
+
+		if index == 0:
+			index = matches - 1
+
+		else:
+			index = index - 1
+
+		self.mainwidget.searchtree.index = index
+
 
 class MainWidget(QWidget):
 	def __init__(self, parent=None):
@@ -353,9 +411,10 @@ class MainWidget(QWidget):
 		for item in rootitems:  # TODO set the color to the entire row
 			item.setBackgroundColor(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
 
-	def searchintree(self):
+	def showtreesearch(self):
 		self.searchtree.show()
 		self.searchtree.searchbar.setFocus()
+		self.searchtree.searchbar.selectAll()
 
 	def getchildren(self, item):
 		children = []
