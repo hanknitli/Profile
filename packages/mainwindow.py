@@ -88,6 +88,7 @@ class MainWindow(QMainWindow):
 		# sub items in Edit menu
 		self.findInTree = QAction("Search tree", self)
 		self.findInTree.setStatusTip("Search the complete tree")
+		self.findInTree.setShortcut("Ctrl+T")
 
 		# add the sub items to the Edit menu
 		self.edit.addActions([self.findInTree, ])
@@ -170,6 +171,7 @@ class MainWindow(QMainWindow):
 
 		self.mainwidget.treewidget.itemClicked.connect(self.setCurrentItem)
 		self.mainwidget.treewidget.itemSelectionChanged.connect(self.itemChanged)
+		self.mainwidget.searchtree.searchbar.textChanged.connect(self.searchtree)
 
 	def toggletoolbar(self):
 		checked = self.toolbar.isVisible()
@@ -216,6 +218,8 @@ class MainWindow(QMainWindow):
 				break
 		return path
 
+	def searchtree(self):
+		pass
 
 class MainWidget(QWidget):
 	def __init__(self, parent=None):
@@ -230,7 +234,9 @@ class MainWidget(QWidget):
 		self.treewidget = QTreeWidget(self)
 		self.inittree()
 
-		self.searchtree = QtClasses.SearchLineEdit()
+		self.searchtree = QtClasses.SearchTree(self)
+		self.searchtree.setObjectName("SearchTree")
+		self.searchtree.setStyleSheet(utils.parseStyleSheet())
 		self.searchtree.hide()
 
 		leftpane = QVBoxLayout()
@@ -349,7 +355,7 @@ class MainWidget(QWidget):
 
 	def searchintree(self):
 		self.searchtree.show()
-		self.searchtree.setFocus()
+		self.searchtree.searchbar.setFocus()
 
 	def getchildren(self, item):
 		children = []

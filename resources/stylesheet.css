@@ -388,3 +388,32 @@ QTextEdit#editor {
 	border-left-width: 1px;
 	border-color: rgb(73, 73, 73);
 }
+
+QWidget#SearchTree {
+	border-style: solid;
+}
+
+QLineEdit#SearchTreeBar {
+    background-color: rgb(53, 53, 53);
+    color: rgb(170, 170, 170);
+    font-size: 12px;
+    font-family: monospace;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: rgb(23, 23, 23);
+    border-width: 1px;
+    height: 20px;
+}
+
+QLineEdit#SearchTreeBar::focus {
+	border-color: rgb(60, 110, 255);
+	border-width: 2px;
+}
+
+QToolButton#SearchTreeNext {
+	border: none;
+}
+
+QToolButton#SearchTreePrevious {
+	border: none;
+}
