@@ -50,7 +50,6 @@ class MainWindow(QMainWindow):
 	def initMenubar(self):
 		self.menubar.setObjectName("MainMenuBar")
 		self.menubar.setStyleSheet(utils.parseStyleSheet())
-		self.menubar.setStatusTip("ToolBar")
 
 		# File menu item for the menu bar
 		self.file = QMenu("&File", self)
@@ -84,6 +83,13 @@ class MainWindow(QMainWindow):
 		self.edit = QMenu("&Edit")
 		self.edit.setStyleSheet(utils.parseStyleSheet())
 		self.menubar.addMenu(self.edit)
+
+		# sub items in Edit menu
+		self.findInTree = QAction("Search tree", self)
+		self.findInTree.setStatusTip("Search the complete tree")
+
+		# add the sub items to the Edit menu
+		self.edit.addActions([self.findInTree, ])
 
 		# View menu item for the menu bar
 		self.view = QMenu("&View")
@@ -153,6 +159,7 @@ class MainWindow(QMainWindow):
 		self.sync.triggered.connect(self.mainwidget.synchronize)
 		self.syncresource.triggered.connect(self.mainwidget.synchronizeresource)
 		self.exit.triggered.connect(self.close)
+		self.findInTree.triggered.connect(self.mainwidget.searchintree)
 		self.scrollbar.triggered.connect(self.togglescrollbar)
 		self.showtoolbar.triggered.connect(self.toggletoolbar)
 		self.expand.triggered.connect(self.mainwidget.expandthis)
@@ -222,12 +229,19 @@ class MainWidget(QWidget):
 		self.treewidget = QTreeWidget(self)
 		self.inittree()
 
-		layout = QHBoxLayout(self)
-		layout.addWidget(self.treewidget)
-		layout.addWidget(self.editor)
-		layout.setSpacing(0)
-		layout.setMargin(1)
-		self.setLayout(layout)
+		self.searchtree = QLineEdit()
+		self.searchtree.hide()
+
+		leftpane = QVBoxLayout()
+		leftpane.addWidget(self.searchtree)
+		leftpane.addWidget(self.treewidget)
+
+		mainlayout = QHBoxLayout()
+		mainlayout.addLayout(leftpane)
+		mainlayout.addWidget(self.editor)
+		mainlayout.setSpacing(0)
+		mainlayout.setMargin(1)
+		self.setLayout(mainlayout)
 
 		self.setObjectName("MainWidget")
 		self.setStyleSheet(utils.parseStyleSheet())
@@ -331,6 +345,10 @@ class MainWidget(QWidget):
 		rootitems = self.getrootitems()
 		for item in rootitems:  # TODO set the color to the entire row
 			item.setBackgroundColor(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
+
+	def searchintree(self):
+		self.searchtree.show()
+		self.searchtree.setFocus()
 
 	def getchildren(self, item):
 		children = []
