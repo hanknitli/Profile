@@ -248,7 +248,7 @@ class MainWindow(QMainWindow):
 
 		if not self.mainwidget.searchtree.result:
 			# List is empty, return
-			self.mainwidget.searchtree.searchbar.setStyleSheet("background: rgb(100, 0, 0);")
+			self.mainwidget.searchtree.searchbar.setStyleSheet("background: rgb(140, 45, 40);")
 			self.mainwidget.searchtree.matches.setText("No Matches")
 			return
 		else:
