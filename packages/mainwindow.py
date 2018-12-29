@@ -263,7 +263,6 @@ class MainWindow(QMainWindow):
 		self.mainwidget.collapsetree()
 		self.mainwidget.expand(self.getroot(match))
 		self.mainwidget.treewidget.scrollToItem(match, QAbstractItemView.PositionAtCenter)
-		print match.text(0)
 
 	def searchtreenext(self):
 		index = self.mainwidget.searchtree.index
