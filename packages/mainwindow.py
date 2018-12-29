@@ -87,6 +87,7 @@ class MainWindow(QMainWindow):
 
 		# sub items in Edit menu
 		self.findInTree = QAction("Search tree", self)
+		self.findInTree.setIcon(QIcon("resources/Icons/searchtree.png"))
 		self.findInTree.setStatusTip("Search the complete tree")
 		self.findInTree.setShortcut("Ctrl+T")
 
