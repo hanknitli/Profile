@@ -256,7 +256,9 @@ class MainWindow(QMainWindow):
 			self.mainwidget.searchtree.matches.setText(str(matches) + " Matches")
 			self.mainwidget.searchtree.searchbar.setStyleSheet(utils.parseStyleSheet())
 
+		# Holds the current selection
 		match = self.mainwidget.searchtree.result[index]
+		# TODO one colour for the selected item and slight green for the other searched items
 
 		self.mainwidget.collapsetree()
 		self.mainwidget.expand(self.getroot(match))
