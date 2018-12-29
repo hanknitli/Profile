@@ -225,10 +225,9 @@ class MainWindow(QMainWindow):
 		rootpath = self.getrootpath(item)
 		return rootpath[-1]
 
-	def searchintree(self):
-		index = 0
+	def searchintree(self, searchbartext, index=0):
 		self.mainwidget.searchtree.index = index
-		text = self.mainwidget.searchtree.searchbar.text()
+		text = searchbartext
 		if not text:
 			self.clearSelectItems(self.mainwidget.searchtree.result)
 			self.mainwidget.searchtree.matches.hide()
@@ -275,6 +274,7 @@ class MainWindow(QMainWindow):
 			index = index + 1
 
 		self.mainwidget.searchtree.index = index
+		self.searchintree(self.mainwidget.searchtree.searchbar.text(), index)
 
 	def searchtreeprevious(self):
 		index = self.mainwidget.searchtree.index
@@ -287,6 +287,7 @@ class MainWindow(QMainWindow):
 			index = index - 1
 
 		self.mainwidget.searchtree.index = index
+		self.searchintree(self.mainwidget.searchtree.searchbar.text(), index)
 
 	def selectItems(self, result):
 		for item in result:
@@ -295,6 +296,7 @@ class MainWindow(QMainWindow):
 	def clearSelectItems(self, result):
 		for item in result:
 			item.setSelected(False)
+
 
 class MainWidget(QWidget):
 	def __init__(self, parent=None):
