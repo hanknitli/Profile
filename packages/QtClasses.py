@@ -9,6 +9,9 @@ class SearchTree(QWidget):
 		self.index = 0  # Set the search index which is used in searching the next occurrence
 		self.result = []  # Initialize emtpy list, which will store the search results
 
+		self.searchicon = SearchIcon(self)
+		self.searchicon.setObjectName("SearchTreeIcon")
+
 		self.searchbar = SearchLineEdit()
 		self.searchbar.setObjectName("SearchTreeBar")
 		self.searchbar.setToolTip("Enter the text")
@@ -33,6 +36,7 @@ class SearchTree(QWidget):
 		self.closesearch.setCursor(Qt.PointingHandCursor)
 
 		searchpane = QHBoxLayout(self)
+		searchpane.addWidget(self.searchicon)
 		searchpane.addWidget(self.searchbar)
 		searchpane.addWidget(self.searchnext)
 		searchpane.addWidget(self.searchprevious)
@@ -47,6 +51,15 @@ class SearchTree(QWidget):
 		else:
 			super(SearchTree, self).keyPressEvent(event)
 
+
 class SearchLineEdit(QLineEdit):
 	def __init__(self, parent=None):
 		super(SearchLineEdit, self).__init__(parent)
+
+
+class SearchIcon(QToolButton):
+	def __init__(self, parent=None):
+		super(SearchIcon, self).__init__(parent)
+
+		self.setIcon(QIcon("resources/Icons/searchtree.png"))
+		self.setPopupMode(QToolButton.InstantPopup)

@@ -398,6 +398,11 @@ QWidget#SearchTree {
 	border-style: solid;
 }
 
+QToolButton#SearchTreeIcon {
+	border: none;
+	padding: 0px;
+}
+
 QLineEdit#SearchTreeBar {
     background-color: rgb(58, 58, 58);
     color: rgb(170, 170, 170);
