@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication
 
 from graphics.windows import errorwindow
-from packages import mainwindow
+from graphics import mainwindow
 from packages import utils
 
 
