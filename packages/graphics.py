@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QGridLayout, QRadioButton, \
 	QLineEdit, QCheckBox, QButtonGroup, QVBoxLayout, QHBoxLayout, QFileDialog, QFrame
 
+from graphics.windows import errorwindow
 from packages import utils
 
 
@@ -196,7 +197,7 @@ class ToolTip(QLabel):
 
 
 def showerror(title=None, reason=None, parent=None):
-	error = ErrorWindow(parent)
+	error = errorwindow.ErrorWindow(parent)
 	if not title:
 		title = "Error"
 	if not reason:
