@@ -154,8 +154,8 @@ class Configuration:
 				raise Exception('Unknown Error')
 
 
-def parseStyleSheet():
-	with open("resources/stylesheet.css", "r") as cssfile:
+def parseStyleSheet(path="resources/stylesheet.css"):
+	with open(path, "r") as cssfile:
 		cssdata = cssfile.read()
 	return cssdata
 

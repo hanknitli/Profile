@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 
-from packages import graphics
+from graphics.windows import error
 from packages import mainwindow
 from packages import utils
 
@@ -13,9 +13,10 @@ def run():
 	# check for the config.yaml file
 	try:
 		utils.configuration.initConfFile()
+		a
 
 	except Exception as reason:
-		errorwindow = graphics.ErrorWindow()
+		errorwindow = error.ErrorWindow()
 		message = "Could not create config.yaml file at\n" + utils.configuration.configfile + "\n\n" + str(reason)
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())

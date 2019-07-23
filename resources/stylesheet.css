@@ -19,47 +19,6 @@ QWidget#MainWindow {
 	background-color: rgb(53, 53, 53);
 }
 
-QLabel#titleLabel {
-	background-color: rgb(73, 73, 73);
-	color: rgb(170, 170, 170);
-	font: Monospace;
-	font-size: 13px;
-	border-style: solid;
-	border-color: rgb(43, 43, 43);
-	border-bottom-width: 1px;
-}
-
-QLabel#bodyLabel {
-	background-color: rgb(53, 53, 53);
-	color: rgb(170, 170, 170);
-	font-family: Monospace;
-	font-size: 13px;
-}
-
-QPushButton#closeButton {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	font-family: monospace;
-	font-size: 12px;
-	padding-top: 9px;
-	padding-bottom: 9px;
-	border-radius: 3px;
-	border-style: solid;
-	border-color: rgb(73, 73, 73);
-	border-width: 1px;
-	outline:none;
-}
-
-QPushButton#closeButton:hover {
-	background-color: rgb(60, 60, 60);
-	color: rgb(170, 170, 170);
-	font-family: monospace;
-	font-size: 12px;
-	border-radius: 3px;
-	padding-top: 9px;
-	padding-bottom: 9px;
-}
-
 QWidget#InputProfileWindow {
 	background-color: rgb(53, 53, 53);
 	border-style: solid;
