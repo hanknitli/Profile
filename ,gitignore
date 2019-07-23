@@ -1,0 +1,7 @@
+# JetBrains files
+.idea/
+
+# venv files
+venv/
+
+requirements.txt

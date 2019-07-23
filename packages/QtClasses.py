@@ -1,5 +1,6 @@
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QLineEdit, QHBoxLayout, QIcon, QPushButton, QWidget, QToolButton, QLabel
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QToolButton, QLabel, QHBoxLayout, QLineEdit
 
 
 class SearchTree(QWidget):
@@ -43,7 +44,7 @@ class SearchTree(QWidget):
 		searchpane.addWidget(self.matches)
 		searchpane.addWidget(self.closesearch)
 
-		searchpane.setMargin(2)
+	# searchpane.setMargin(2)
 
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Escape:

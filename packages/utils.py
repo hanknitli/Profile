@@ -7,7 +7,7 @@ import time
 import git
 import yaml
 
-execfile("packages/constants.py")
+exec(open("packages/constants.py").read())
 
 
 class Configuration:
@@ -47,7 +47,7 @@ class Configuration:
 
 		except OSError as reason:
 			if reason.errno != errno.EEXIST:
-				raise Exception, 'Unknown Error'
+				raise Exception('Unknown Error')
 
 		with open(self.configfile, "w") as config:
 			yaml.dump(default_config, config, default_flow_style=False)
@@ -215,7 +215,7 @@ def cleanProfileDir(fullclean=False):
 				shutil.rmtree(os.path.join(base, ".git"), ignore_errors=False, onerror=caughtError)
 
 	except OSError as reason:
-		print reason
+		print(reason)
 		pass  # TODO log the error in log.txt
 
 
@@ -224,6 +224,7 @@ def caughtError(func, path, exc):
 		os.system('rmdir /S /Q "{}" > nul 2> nul'.format(path))
 	elif sys.platform == "linux2":
 		os.system('rm -rdf {} > /dev/null 2> /dev/null'.format(path))
+
 
 # all the things read from the config.yaml file
 configuration = Configuration()

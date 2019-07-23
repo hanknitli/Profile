@@ -1,8 +1,11 @@
 import os
 
 import git
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QIcon
+from PyQt5.QtWidgets import QDialog, QApplication, QLabel, QPushButton, QGridLayout, QDesktopWidget, QRadioButton, \
+	QLineEdit, QCheckBox, QButtonGroup, QVBoxLayout, QHBoxLayout, QFileDialog, QFrame
+
 from packages import utils
 
 
@@ -41,7 +44,7 @@ class ErrorWindow(QDialog):
 		mainlayout.setColumnMinimumWidth(4, 80)
 		mainlayout.setColumnMinimumWidth(5, 10)
 		mainlayout.setSpacing(0)
-		mainlayout.setMargin(1)
+		# mainlayout.setMargin(1)
 
 		self.setLayout(mainlayout)
 
@@ -162,7 +165,7 @@ class InputProfileWindow(QDialog):
 		layout.setRowMinimumHeight(5, 10)
 		layout.setRowMinimumHeight(7, 5)
 		layout.setSpacing(5)
-		layout.setMargin(1)
+		# layout.setMargin(1)
 
 		self.setLayout(layout)
 		self.connections()

@@ -1,14 +1,14 @@
-import traceback
+from PyQt5.QtWidgets import QApplication
 
-from packages import mainwindow
 from packages import graphics
+from packages import mainwindow
 from packages import utils
 
 
 def run():
 	import sys
 
-	app = mainwindow.QApplication(sys.argv)
+	app = QApplication(sys.argv)
 
 	# check for the config.yaml file
 	try:

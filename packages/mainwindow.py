@@ -1,8 +1,10 @@
-from PyQt4.QtCore import *
-from PyQt4.QtGui import *
-from packages import utils
-from packages import graphics
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon, QColor
+from PyQt5.QtWidgets import *
+
 from packages import QtClasses
+from packages import graphics
+from packages import utils
 
 
 class MainWindow(QMainWindow):
@@ -326,7 +328,7 @@ class MainWidget(QWidget):
 		mainlayout.addLayout(leftpane)
 		mainlayout.addWidget(self.editor)
 		mainlayout.setSpacing(0)
-		mainlayout.setMargin(1)
+		# mainlayout.setMargin(1)
 		self.setLayout(mainlayout)
 
 		self.setObjectName("MainWidget")
@@ -430,7 +432,7 @@ class MainWidget(QWidget):
 			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		rootitems = self.getrootitems()
 		for item in rootitems:  # TODO set the color to the entire row
-			item.setBackgroundColor(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
+			item.setForeground(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
 
 	def showtreesearch(self):
 		self.searchtree.show()
