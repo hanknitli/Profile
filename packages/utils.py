@@ -7,7 +7,7 @@ import time
 import git
 import yaml
 
-exec(open("packages/constants.py").read())
+exec(open("constants/constants.py").read())
 
 
 class Configuration:
