@@ -1,8 +1,9 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QColor
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMenu, QAction, QAbstractItemView, QWidget, QTextEdit, \
+	QTreeWidget, QVBoxLayout, QHBoxLayout, QTreeWidgetItem
 
-from packages import QtClasses
+from graphics.custom import searchtree
 from packages import graphics
 from packages import utils
 
@@ -315,9 +316,8 @@ class MainWidget(QWidget):
 		self.treewidget = QTreeWidget(self)
 		self.inittree()
 
-		self.searchtree = QtClasses.SearchTree(self)
+		self.searchtree = searchtree.SearchTree(self)
 		self.searchtree.setObjectName("SearchTree")
-		self.searchtree.setStyleSheet(utils.parseStyleSheet())
 		self.searchtree.hide()
 
 		leftpane = QVBoxLayout()

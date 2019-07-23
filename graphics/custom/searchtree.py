@@ -2,10 +2,14 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QToolButton, QLabel, QHBoxLayout, QLineEdit
 
+from packages import utils
+
 
 class SearchTree(QWidget):
 	def __init__(self, parent=None):
 		super(SearchTree, self).__init__(parent)
+
+		self.stylesheet_path = "resources/css/custom/searchtree.css"
 
 		self.index = 0  # Set the search index which is used in searching the next occurrence
 		self.result = []  # Initialize emtpy list, which will store the search results
@@ -45,6 +49,8 @@ class SearchTree(QWidget):
 		searchpane.addWidget(self.closesearch)
 
 		searchpane.setContentsMargins(2, 2, 2, 2)
+
+		self.setStyleSheet(utils.parseStyleSheet(self.stylesheet_path))
 
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Escape:
