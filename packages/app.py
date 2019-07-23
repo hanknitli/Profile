@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication
 
 from graphics.windows import errorwindow
-from graphics.mainwindow import window
+from graphics.mainwindow import basewindow
 from packages import utils
 
 
@@ -41,7 +41,7 @@ def run():
 		error.showError("Error", message)
 		sys.exit(app.exec_())
 
-	main_window = window.MainWindow()
+	main_window = basewindow.MainWindow()
 	main_window.show()
 
 	app.exec_()

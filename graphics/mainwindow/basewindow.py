@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QMenu, QAction, QAbstractItemView
 
-from graphics.mainwindow.mainwidget import MainWidget
+from graphics.mainwindow.basewidget import MainWidget
 from packages import utils
 
 
@@ -171,12 +171,12 @@ class MainWindow(QMainWindow):
 		self.expandall.triggered.connect(self.main_widget.expandtree)
 		self.collapseall.triggered.connect(self.main_widget.collapsetree)
 
-		self.main_widget.treewidget.itemClicked.connect(self.setCurrentItem)
-		self.main_widget.treewidget.itemSelectionChanged.connect(self.itemChanged)
-		self.main_widget.search_tree.searchbar.textChanged.connect(self.searchintree)
-		self.main_widget.search_tree.searchnext.clicked.connect(self.searchtreenext)
-		self.main_widget.search_tree.searchprevious.clicked.connect(self.searchtreeprevious)
-		self.main_widget.search_tree.closesearch.clicked.connect(self.main_widget.search_tree.close)
+		self.main_widget.tree_widget.itemClicked.connect(self.setCurrentItem)
+		self.main_widget.tree_widget.itemSelectionChanged.connect(self.itemChanged)
+		self.main_widget.search_in_tree.searchbar.textChanged.connect(self.searchintree)
+		self.main_widget.search_in_tree.searchnext.clicked.connect(self.searchtreenext)
+		self.main_widget.search_in_tree.searchprevious.clicked.connect(self.searchtreeprevious)
+		self.main_widget.search_in_tree.closesearch.clicked.connect(self.main_widget.search_in_tree.close)
 
 	def toggletoolbar(self):
 		checked = self.toolbar.isVisible()
@@ -188,15 +188,15 @@ class MainWindow(QMainWindow):
 
 	def togglescrollbar(self):
 		if self.main_widget._scrollbar_set:
-			self.main_widget.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+			self.main_widget.tree_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 			self.scrollbar.setIcon(QIcon())
 		else:
-			self.main_widget.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+			self.main_widget.tree_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
 			self.scrollbar.setIcon(QIcon("resources/Icons/checked.png"))
 		self.main_widget._scrollbar_set = not self.main_widget._scrollbar_set
 
 	def itemChanged(self):
-		item = self.main_widget.treewidget.selectedItems()
+		item = self.main_widget.tree_widget.selectedItems()
 		# check if the list is empty
 		if len(item):
 			self.setCurrentItem(item[0], 0)
@@ -228,46 +228,46 @@ class MainWindow(QMainWindow):
 		return rootpath[-1]
 
 	def searchintree(self, searchbartext, index=0):
-		self.main_widget.search_tree.index = index
+		self.main_widget.search_in_tree.index = index
 		text = searchbartext
 		if not text:
-			self.clearSelectItems(self.main_widget.search_tree.result)
-			self.main_widget.search_tree.matches.hide()
+			self.clearSelectItems(self.main_widget.search_in_tree.result)
+			self.main_widget.search_in_tree.matches.hide()
 			return  # Return if there is nothing to search
 		else:
-			self.main_widget.search_tree.matches.show()
+			self.main_widget.search_in_tree.matches.show()
 
 		# Clear the previously selected items
-		if self.main_widget.search_tree.result:
-			self.clearSelectItems(self.main_widget.search_tree.result)
+		if self.main_widget.search_in_tree.result:
+			self.clearSelectItems(self.main_widget.search_in_tree.result)
 
-		self.main_widget.search_tree.result = self.main_widget.treewidget.findItems(text,
-																					Qt.MatchContains | Qt.MatchRecursive)
+		self.main_widget.search_in_tree.result = self.main_widget.tree_widget.findItems(text,
+																						Qt.MatchContains | Qt.MatchRecursive)
 
 		# Select the newly searched items
-		if self.main_widget.search_tree.result:
-			self.selectItems(self.main_widget.search_tree.result)
+		if self.main_widget.search_in_tree.result:
+			self.selectItems(self.main_widget.search_in_tree.result)
 
-		if not self.main_widget.search_tree.result:
+		if not self.main_widget.search_in_tree.result:
 			# List is empty, return
-			self.main_widget.search_tree.searchbar.setStyleSheet("background: rgb(140, 45, 40);")
-			self.main_widget.search_tree.matches.setText("No Matches")
+			self.main_widget.search_in_tree.searchbar.setStyleSheet("background: rgb(140, 45, 40);")
+			self.main_widget.search_in_tree.matches.setText("No Matches")
 			return
 		else:
-			matches = len(self.main_widget.search_tree.result)
-			self.main_widget.search_tree.matches.setText(str(matches) + " Matches")
+			matches = len(self.main_widget.search_in_tree.result)
+			self.main_widget.search_in_tree.matches.setText(str(matches) + " Matches")
 
 		# Holds the current selection
-		match = self.main_widget.search_tree.result[index]
+		match = self.main_widget.search_in_tree.result[index]
 		# TODO one colour for the selected item and slight green for the other searched items
 
 		self.main_widget.collapsetree()
 		self.main_widget.expand(self.getroot(match))
-		self.main_widget.treewidget.scrollToItem(match, QAbstractItemView.PositionAtCenter)
+		self.main_widget.tree_widget.scrollToItem(match, QAbstractItemView.PositionAtCenter)
 
 	def searchtreenext(self):
-		index = self.main_widget.search_tree.index
-		matches = len(self.main_widget.search_tree.result)
+		index = self.main_widget.search_in_tree.index
+		matches = len(self.main_widget.search_in_tree.result)
 
 		if index == (matches - 1):
 			index = 0
@@ -275,12 +275,12 @@ class MainWindow(QMainWindow):
 		else:
 			index = index + 1
 
-		self.main_widget.search_tree.index = index
-		self.searchintree(self.main_widget.search_tree.searchbar.text(), index)
+		self.main_widget.search_in_tree.index = index
+		self.searchintree(self.main_widget.search_in_tree.searchbar.text(), index)
 
 	def searchtreeprevious(self):
-		index = self.main_widget.search_tree.index
-		matches = len(self.main_widget.search_tree.result)
+		index = self.main_widget.search_in_tree.index
+		matches = len(self.main_widget.search_in_tree.result)
 
 		if index == 0:
 			index = matches - 1
@@ -288,8 +288,8 @@ class MainWindow(QMainWindow):
 		else:
 			index = index - 1
 
-		self.main_widget.search_tree.index = index
-		self.searchintree(self.main_widget.search_tree.searchbar.text(), index)
+		self.main_widget.search_in_tree.index = index
+		self.searchintree(self.main_widget.search_in_tree.searchbar.text(), index)
 
 	def selectItems(self, result):
 		for item in result:

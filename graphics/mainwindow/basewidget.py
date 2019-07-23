@@ -3,6 +3,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QWidget, QTextEdit, QTreeWidget, QVBoxLayout, QHBoxLayout, QTreeWidgetItem
 
 from graphics.custom import searchtree
+from graphics.mainwindow.treewidget import ProfileTree
 from packages import utils, graphics
 
 
@@ -18,14 +19,14 @@ class MainWidget(QWidget):
 		self.editor = QTextEdit(self)
 		self.inittextedit()
 
-		self.treewidget = QTreeWidget(self)
+		self.tree_widget = ProfileTree(self)
 		self.inittree()
 
-		self.search_tree = searchtree.SearchTree(self)
+		self.search_in_tree = searchtree.SearchTree(self)
 
 		leftpane = QVBoxLayout()
-		leftpane.addWidget(self.search_tree)
-		leftpane.addWidget(self.treewidget)
+		leftpane.addWidget(self.search_in_tree)
+		leftpane.addWidget(self.tree_widget)
 
 		mainlayout = QHBoxLayout()
 		mainlayout.addLayout(leftpane)
@@ -42,8 +43,6 @@ class MainWidget(QWidget):
 		self.editor.setObjectName("editor")
 
 	def inittree(self):
-		self.treewidget.setObjectName("TreeWidget")
-		self.treewidget.setHeaderHidden(True)
 		self.maketree()
 		self.setTreeStyle()
 
@@ -68,7 +67,7 @@ class MainWidget(QWidget):
 
 	def parseprofile(self, profile, item=None):
 		if not item:
-			item = self.treewidget.invisibleRootItem()
+			item = self.tree_widget.invisibleRootItem()
 		if isinstance(profile, dict):
 			for key in sorted(profile.keys()):
 				parent = item
@@ -95,7 +94,7 @@ class MainWidget(QWidget):
 		rootitems = []
 		index = 0
 		while True:
-			root = self.treewidget.topLevelItem(index)
+			root = self.tree_widget.topLevelItem(index)
 			index += 1
 			if root:
 				rootitems.append(root)
@@ -104,7 +103,7 @@ class MainWidget(QWidget):
 		return rootitems
 
 	def synchronize(self):
-		self.treewidget.clear()
+		self.tree_widget.clear()
 		self.maketree()
 		self.setTreeStyle()
 
@@ -118,7 +117,7 @@ class MainWidget(QWidget):
 		except IOError as reason:
 			graphics.showerror("Profile Error", str(reason))
 
-		self.treewidget.clear()
+		self.tree_widget.clear()
 		self.maketree()
 		self.setTreeStyle()
 
@@ -128,17 +127,17 @@ class MainWidget(QWidget):
 	def setTreeStyle(self):
 		self._scrollbar_set = utils.configuration.scrollbar
 		if utils.configuration.scrollbar:
-			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+			self.tree_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
 		else:
-			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+			self.tree_widget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		rootitems = self.getrootitems()
 		for item in rootitems:  # TODO set the color to the entire row
 			item.setBackground(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
 
 	def showtreesearch(self):
-		self.search_tree.show()
-		self.search_tree.searchbar.setFocus()
-		self.search_tree.searchbar.selectAll()
+		self.search_in_tree.show()
+		self.search_in_tree.searchbar.setFocus()
+		self.search_in_tree.searchbar.selectAll()
 
 	def getchildren(self, item):
 		children = []

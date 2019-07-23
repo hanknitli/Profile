@@ -9,37 +9,3 @@ QTextEdit#editor {
 	border-left-width: 1px;
 	border-color: rgb(73, 73, 73);
 }
-
-QTreeWidget#TreeWidget {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	border-style: solid;
-	border-width: 0px;
-}
-
-QTreeWidget#TreeWidget::item:selected {
-	background-color: rgb(60, 50, 255);
-	color: white;
-}
-
-QScrollBar:vertical {
-	background-color: rgb(53, 53, 53);
-	width: 7px;
-}
-
-QScrollBar::handle:vertical {
-	background-color: rgb(100, 100, 100);
-	margin: 0px;
-	width: 7px;
-}
-
-QScrollBar:horizontal {
-	background-color: rgb(53, 53, 53);
-	height: 7px;
-}
-
-QScrollBar::handle:horizontal {
-	background-color: rgb(100, 100, 100);
-	margin: 0px;
-	height: 7px;
-}
