@@ -21,7 +21,7 @@ class Configuration:
 		self.scrollbar = None
 
 		with open("resources/default_config.yaml", "r") as default_config:
-			config = yaml.load(default_config)
+			config = yaml.safe_load(default_config)
 
 		if sys.platform == "win32":
 			__appdata__ = os.getenv(config["configfile"]["Windows"])
@@ -54,7 +54,7 @@ class Configuration:
 
 	def getDefaultConfig(self):
 		with open("resources/default_config.yaml", "r") as default_configfile:
-			config = yaml.load(default_configfile)
+			config = yaml.safe_load(default_configfile)
 
 		if sys.platform == "win32":
 			logfile = config["logfile"]["Windows"]
@@ -83,7 +83,7 @@ class Configuration:
 
 		else:
 			with open(self.configfile, "r") as config:
-				data = yaml.load(config)
+				data = yaml.safe_load(config)
 			return data
 
 	def updateConfFile(self, setToDefault=False):
@@ -166,7 +166,7 @@ def readprofile(basepath):
 		if isProfileExists(profilepath["yaml"]):
 			if isYAMLSane(profilepath["yaml"]):
 				with open(profilepath["yaml"], "r") as profile_file:
-					profile = yaml.load(profile_file)
+					profile = yaml.safe_load(profile_file)
 				return profile
 			else:
 				raise IOError("Profile corrupted")
@@ -174,7 +174,7 @@ def readprofile(basepath):
 		elif isProfileExists(profilepath["yml"]):
 			if isYAMLSane(profilepath["yml"]):
 				with open(profilepath["yml"], "r") as profile_file:
-					profile = yaml.load(profile_file)
+					profile = yaml.safe_load(profile_file)
 				return profile
 			else:
 				raise IOError("Profile corrupted")
