@@ -432,7 +432,7 @@ class MainWidget(QWidget):
 			self.treewidget.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		rootitems = self.getrootitems()
 		for item in rootitems:  # TODO set the color to the entire row
-			item.setForeground(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
+			item.setBackground(0, QColor(53, 53, 53))  # TODO set the color of the child indicator
 
 	def showtreesearch(self):
 		self.searchtree.show()
