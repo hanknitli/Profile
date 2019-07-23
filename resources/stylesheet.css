@@ -1,3 +1,4 @@
+
 QToolTip {
 	background-color: rgb(53, 53, 53);
 	color: rgb(170, 170, 170);
@@ -13,10 +14,6 @@ QWidget#errorWindow {
 	border-style: solid;
 	border-color: rgb(83, 83, 83);
 	border-width: 1px;
-}
-
-QWidget#MainWindow {
-	background-color: rgb(53, 53, 53);
 }
 
 QWidget#InputProfileWindow {
@@ -229,126 +226,4 @@ QPushButton#profileButton:hover {
 	padding-top: 9px;
 	padding-bottom: 9px;
 	outline: none;
-}
-
-QMainWindow#Profile {
-	background-color: rgb(63, 63, 63);
-}
-
-QStatusBar#MainStatusBar {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	margin: 1px;
-	border-color: rgb(73, 73, 73);
-	border-top-width: 1px;
-	border-style: solid;
-}
-
-QMenuBar#MainMenuBar {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	margin: 1px;
-	border-color: rgb(73, 73, 73);
-	border-style: solid;
-}
-
-QMenuBar::item {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	font-family: monospace;
-}
-
-QMenuBar::item:selected {
-	background-color: rgb(10, 80, 120);
-	color: rgb(170, 170, 170);
-	border-width: 0px;
-}
-
-QToolBar {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	height: 5px;
-	spacing: 0px;
-	border-color: rgb(53, 53, 53);
-	border-width: 1px;
-	border-style: solid;
-}
-
-QToolBar::separator {
-	background-color: rgb(83, 83, 83);
-	width: 1px;
-	height: 2px;
-}
-
-QToolButton {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	width: 20px;
-	height: 20px;
-}
-
-QToolButton:hover {
-	background-color: rgb(83, 83, 83);
-	border-style: solid;
-	border-width: 1px;
-	border-color: rgb(130, 130, 130);
-}
-
-QMenu {
-	background-color: rgb(73, 73, 73);
-	color: rgb(170, 170, 170);
-	border-style: solid;
-	border-width: 1px;
-	border-color: rgb(93, 93, 93);
-}
-
-QMenu:selected {
-	background-color: rgb(10, 80, 120);
-	color: rgb(170, 170, 170);
-	border-width: 0px;
-}
-
-QTreeWidget#TreeWidget {
-	background-color: rgb(63, 63, 63);
-	color: rgb(170, 170, 170);
-	border-style: solid;
-	border-width: 0px;
-}
-
-QTreeWidget#TreeWidget::item:selected {
-	background-color: rgb(60, 50, 255);
-	color: white;
-}
-
-QScrollBar:vertical {
-	background-color: rgb(53, 53, 53);
-	width: 7px;
-}
-
-QScrollBar::handle:vertical {
-	background-color: rgb(100, 100, 100);
-	margin: 0px;
-	width: 7px;
-}
-
-QScrollBar:horizontal {
-	background-color: rgb(53, 53, 53);
-	height: 7px;
-}
-
-QScrollBar::handle:horizontal {
-	background-color: rgb(100, 100, 100);
-	margin: 0px;
-	height: 7px;
-}
-
-QTextEdit#editor {
-	background-color: rgb(43, 43, 43);
-	color: rgb(170, 170, 170);
-	font-family: Monospace;
-	font-style: normal;
-	font-size: 12px;
-	border-style: solid;
-	border-left-width: 1px;
-	border-color: rgb(73, 73, 73);
 }

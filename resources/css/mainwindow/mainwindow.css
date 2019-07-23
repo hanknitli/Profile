@@ -1,0 +1,81 @@
+
+QWidget#MainWindow {
+	background-color: rgb(53, 53, 53);
+}
+
+QMainWindow#Profile {
+	background-color: rgb(63, 63, 63);
+}
+
+QStatusBar#MainStatusBar {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	margin: 1px;
+	border-color: rgb(73, 73, 73);
+	border-top-width: 1px;
+	border-style: solid;
+}
+
+QMenuBar#MainMenuBar {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	margin: 1px;
+	border-color: rgb(73, 73, 73);
+	border-style: solid;
+}
+
+QMenuBar::item {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	font-family: monospace;
+}
+
+QMenuBar::item:selected {
+	background-color: rgb(10, 80, 120);
+	color: rgb(170, 170, 170);
+	border-width: 0px;
+}
+
+QMenu {
+	background-color: rgb(73, 73, 73);
+	color: rgb(170, 170, 170);
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(93, 93, 93);
+}
+
+QMenu:selected {
+	background-color: rgb(10, 80, 120);
+	color: rgb(170, 170, 170);
+	border-width: 0px;
+}
+
+QToolBar#MainToolBar {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	height: 5px;
+	spacing: 0px;
+	border-color: rgb(53, 53, 53);
+	border-width: 1px;
+	border-style: solid;
+}
+
+QToolBar#MainToolBar::separator {
+	background-color: rgb(83, 83, 83);
+	width: 1px;
+	height: 2px;
+}
+
+QToolButton {
+	background-color: rgb(63, 63, 63);
+	color: rgb(170, 170, 170);
+	width: 20px;
+	height: 20px;
+}
+
+QToolButton:hover {
+	background-color: rgb(83, 83, 83);
+	border-style: solid;
+	border-width: 1px;
+	border-color: rgb(130, 130, 130);
+}

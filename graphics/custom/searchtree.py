@@ -50,6 +50,9 @@ class SearchTree(QWidget):
 
 		searchpane.setContentsMargins(2, 2, 2, 2)
 
+		self.setObjectName("SearchTree")
+		self.hide()
+
 		self.setStyleSheet(utils.parseStyleSheet(self.stylesheet_path))
 
 	def keyPressEvent(self, event):
