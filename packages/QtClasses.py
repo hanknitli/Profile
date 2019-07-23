@@ -44,7 +44,7 @@ class SearchTree(QWidget):
 		searchpane.addWidget(self.matches)
 		searchpane.addWidget(self.closesearch)
 
-	# searchpane.setMargin(2)
+		searchpane.setContentsMargins(2, 2, 2, 2)
 
 	def keyPressEvent(self, event):
 		if event.key() == Qt.Key_Escape:

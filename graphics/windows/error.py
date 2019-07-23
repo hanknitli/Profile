@@ -1,7 +1,8 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QIcon
-from PyQt5.QtWidgets import QDialog, QApplication, QLabel, QPushButton, QGridLayout, QDesktopWidget
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QGridLayout, QDesktopWidget
 
+from graphics.fonts.monospace import Monospace
 from packages import utils
 
 
@@ -11,9 +12,8 @@ class ErrorWindow(QDialog):
 
 		self.stylesheet_path = "resources/css/windows/error.css"
 
-		font = QApplication.font()
-		font.setStyleStrategy(QFont.PreferAntialias)
-		QApplication.setFont(font)
+		font = Monospace()
+		self.setFont(font)
 
 		self.windowtitle = QLabel()
 		self.windowtitle.setObjectName("titleLabel")
@@ -42,7 +42,7 @@ class ErrorWindow(QDialog):
 		mainlayout.setColumnMinimumWidth(4, 80)
 		mainlayout.setColumnMinimumWidth(5, 10)
 		mainlayout.setSpacing(0)
-		# mainlayout.setMargin(1)
+		mainlayout.setContentsMargins(1, 1, 1, 1)
 
 		self.setLayout(mainlayout)
 
@@ -51,13 +51,16 @@ class ErrorWindow(QDialog):
 	# self.setGraphicsEffect(effect)
 	def setWindow(self):
 		desktopgeometry = QDesktopWidget().screenGeometry()
-		widgetlength = 400
-		widgetwidth = 100
-		widgetstart = desktopgeometry.width() / 2 - widgetlength / 2
-		widgetend = desktopgeometry.height() / 2 - widgetwidth / 2
-		self.setGeometry(widgetstart, widgetend, widgetlength, widgetwidth)
 
-		# TODO position the window at the center of the screen
+		# width is 40% of screen height
+		widget_width = int(40 * desktopgeometry.width() / 100)
+
+		# width is 12% of screen width
+		widget_height = int(12 * desktopgeometry.height() / 100)
+
+		widgetstart = desktopgeometry.width() / 2 - widget_width / 2
+		widgetend = desktopgeometry.height() / 2 - widget_height / 2
+		self.setGeometry(widgetstart, widgetend, widget_width, widget_height)
 
 		self.setObjectName("errorWindow")
 		self.setStyleSheet(utils.parseStyleSheet())

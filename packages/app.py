@@ -13,7 +13,6 @@ def run():
 	# check for the config.yaml file
 	try:
 		utils.configuration.initConfFile()
-		a
 
 	except Exception as reason:
 		errorwindow = error.ErrorWindow()
@@ -26,7 +25,7 @@ def run():
 		utils.configuration.initLogFile()
 
 	except Exception as reason:
-		errorwindow = graphics.ErrorWindow()
+		errorwindow = error.ErrorWindow()
 		message = "Could not create Log file at\n" + utils.configuration.logfile + "\n\n" + str(reason)
 		errorwindow.showError("Error", message)
 		sys.exit(app.exec_())
@@ -36,7 +35,7 @@ def run():
 		utils.configuration.initProfilePath()
 
 	except Exception as reason:
-		errorwindow = graphics.ErrorWindow()
+		errorwindow = error.ErrorWindow()
 		message = "Could not create the .profile directory at\n" + utils.configuration.profilepath + "\n\n"
 		message += str(reason)
 		errorwindow.showError("Error", message)

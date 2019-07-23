@@ -328,7 +328,7 @@ class MainWidget(QWidget):
 		mainlayout.addLayout(leftpane)
 		mainlayout.addWidget(self.editor)
 		mainlayout.setSpacing(0)
-		# mainlayout.setMargin(1)
+		mainlayout.setContentsMargins(1, 1, 1, 1)
 		self.setLayout(mainlayout)
 
 		self.setObjectName("MainWidget")

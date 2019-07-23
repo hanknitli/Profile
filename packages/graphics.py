@@ -100,7 +100,7 @@ class InputProfileWindow(QDialog):
 		layout.setRowMinimumHeight(5, 10)
 		layout.setRowMinimumHeight(7, 5)
 		layout.setSpacing(5)
-		# layout.setMargin(1)
+		layout.setContentsMargins(1, 1, 1, 1)
 
 		self.setLayout(layout)
 		self.connections()
